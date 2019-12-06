@@ -34,13 +34,14 @@ public class Animal {
     /** vitesse de l'animal */
     private int vitesse;
 
-    public Animal(int nbFaim, int nbSoif, int x, int y) {
+    public Animal(int nbFaim, int nbSoif, int x, int y, int vitm, int perc, int end) {
         faim = nbFaim;
         abscisse = x;
         ordonnee = y;
         soif = nbSoif;
-
-
-
+        vitesseMax = vitm;
+        perception = perc;
+        enduranceMax = end;
     }
+
 }
