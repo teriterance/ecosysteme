@@ -1,5 +1,13 @@
 package sample;
 
+/**Valeurs des differentes classes :
+ * Herbivore : enduranceMax = x, perception = x, point_de_vie départ = x, vitesseMax = x,
+ * Carnivore : enduranceMax = x, perception = x, point_de_vie départ = x, vitesseMax = x,
+ * Charognard : enduranceMax = x, perception = x, point_de_vie départ = x, vitesseMax = x,
+ *
+ */
+
+
 public class Animal {
     /** nombre de tours avant d'avoir faim */
     private int faim;
@@ -62,7 +70,7 @@ public class Animal {
     void boire(int eau){
         //valeur d'eau a boire
     }
-    void fuite(int x, int y){
+    void courir(int x, int y){
         //ici on definira un deplacement avec une vitesse haute
 
         if ((x <= this.vitesse) && (y <= this.vitesse)) {
@@ -90,23 +98,24 @@ public class Animal {
     }
 
     void meurt_de_faimsoif(int viem, int endm) {
-        /** Si l'animal a faim ou soif il perd de la vie et de l'endurance jusqu'a mourir */
+        /** Si l'animal a faim ou soif il perd de la vie et de l'endurance jusqu'a mourir
+         * on prend en compte les cas où ls points de vie ou l'ndurance peuvent être inferieurs a 0*/
         int diffpdv = this.point_de_vie - viem;
         int diffend = this.endurance - endm;
 
-        if ((diffpdv > 0 ) & (diffend > 0)) {
+        if ((diffpdv > 0 ) && (diffend > 0)) {
             this.point_de_vie -= viem;
             this.endurance -= endm;
         }
 
-        if ((diffpdv <= 0 ) & (diffend > 0)) {
+        if ((diffpdv <= 0 ) && (diffend > 0)) {
             this.point_de_vie = 0;
             this.endurance -= endm;
         }
 
-        if ((diffpdv > 0 ) & (diffend <= 0)) {
+        if ((diffpdv > 0 ) && (diffend <= 0)) {
             this.point_de_vie -= viem;
-            this.endurance -= 0;
+            this.endurance = 0;
         }
 
         else {
