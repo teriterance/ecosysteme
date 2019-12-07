@@ -61,6 +61,7 @@ public class Animal {
     }
     void boire(int eau){
         //valeur d'eau a boire
+        
     }
     void fuite(int x, int y){
         //ici on definira un deplacement avec une vitesse haute
