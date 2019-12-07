@@ -1,4 +1,6 @@
 package sample;
 
-public class Herbivore {
+public class Herbivore extends Animal{
+    super
+
 }
