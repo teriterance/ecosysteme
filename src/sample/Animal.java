@@ -25,7 +25,7 @@ public abstract class Animal {
     /**ordonnee */
     private int ordonnee;
     /** endurance actuelle */
-    private int endurance;
+    protected int endurance;
     /** vitesse de l'animal */
     private int vitesse;
     /**Pour savoir son etat de recherche d'eau **/
@@ -64,6 +64,7 @@ public abstract class Animal {
             this.faim = this.faim_max;
         }
     }
+
     void deplacer(int x, int y){
         //x et y sont les valeur de deplacement selon x et y
         if ((x <= this.vitesse) && (x <= this.vitesse)) {
@@ -90,7 +91,7 @@ public abstract class Animal {
         }
         else {
             //on leve une exception
-            throw new IllegalArgumentException("Les valeurs des deplacement sont plus grandes que les valeur vitesse");
+            throw new IllegalArgumentException("Les valeurs de deplacement sont plus grandes que les valeurs vitesse");
         }
     }
 
@@ -108,12 +109,14 @@ public abstract class Animal {
             }
         }
     }
+
     void meurt(){
         this.point_de_vie = 0;
     }
     double dist(Poin_eau e){
         return Math.sqrt(Math.pow(this.abscisse - e.get_abscisse(), 2) + Math.pow(this.ordonnee - e.get_ordonnee(), 2));
     }
+
     void chercher_a_boire(ArrayList<Poin_eau> eaus) {
         /**Cherche le point d'eau le plus proche, si pas de point d'eau dans le champ de perception,
          * choisit une direction au hasard et s'avance dans cette direction **/
