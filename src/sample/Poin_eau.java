@@ -5,7 +5,7 @@ public class Poin_eau {
     private  int ordonnee;
 
     //pas encore de constructeur
-    
+
     public int get_abscisse(){
         return  this.abscisse;
     }
