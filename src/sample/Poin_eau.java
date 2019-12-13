@@ -2,7 +2,7 @@ package sample;
 
 public class Poin_eau {
     /**Le nombre de point d'eau**/
-    private static  int nb_point_eau = 0;
+    protected static int nb_point_eau = 0;
 
     /**les variables de classe**/
     /**coordone du centre du point d'eau et son rayon**/

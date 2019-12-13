@@ -40,28 +40,32 @@ public abstract class Animal {
     /**definition des constantes statiques leurs valeur seront redefinies pour les different heritiers de la classe animal**/
 
     /**le nombre de points d'attaque de l'animal**/
-    private int point_attaque = 20;
+    protected int point_attaque = 20;
     /** endurance max */
-    private int enduranceMax = 20;
+    protected int enduranceMax = 20;
     /** vitesseMax de l'animal */
-    private int vitesseMax = 20;
+    protected int vitesseMax = 20;
     //pour les valeurs faim et soif on par du principe que le min est 0
     /**la valeur max de la faim **/
-    private int faim_max = 20;
+    protected int faim_max = 20;
     /**la valeur max de la soif**/
-    private int soif_max = 20;
+    protected int soif_max = 20;
     /** perception : champ de vision de l'animal */
-    private int perception = 20;
+    protected int perception = 20;
 
 
     /**ON veut eviter du canibalisme donc**/
-    private String espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
+    protected String espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
 
     public Animal(int nbFaim, int nbSoif, int x, int y) {
         this.faim = nbFaim;
         this.abscisse = x;
         this.ordonnee = y;
         this.soif = nbSoif;
+    }
+
+    public String getEspece(){
+        return this.espece;
     }
 
     public void manger(int val_nouriture){
@@ -144,14 +148,16 @@ public abstract class Animal {
         /**cas ou on initialise les choses **/
         float dist_min = 100000;
         for (int counter = 0 ; counter < eaus.size() ; counter++){
-            double a = Math.pow((this.abscisse - this.position_eau_x),2) + Math.pow((this.abscisse - this.position_eau_x),2);
-            if ( a < dist_min){
-                this.position_eau_x = eaus.get(counter).get_abscisse();
-                this.position_eau_y = eaus.get(counter).get_ordonnee();
+            int c = eaus.get(counter).get_abscisse();
+            int d = eaus.get(counter).get_ordonnee();
+            double a = Math.pow((this.abscisse - c),2) + Math.pow((this.abscisse - d),2);
+            if ( a < dist_min && a < this.perception){
+                this.position_eau_x = c;
+                this.position_eau_y = d;
                 this.rayon_eau = eaus.get(counter).getRayon();
             }
         }
-        return true;
+        return position_eau_x != -1 && position_eau_x != -1;
     }
 
     public void meurt_de_faimsoif(int viem, int endm) {
@@ -185,5 +191,4 @@ public abstract class Animal {
         return  this.point_attaque;
     }
 
-    public
 }
