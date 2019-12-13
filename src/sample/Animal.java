@@ -37,7 +37,7 @@ public abstract class Animal {
     /**on presente l'adresse du point d'eau qui est visee**/
     protected int id_point_eau_vise = -1;
 
-    /**definition des constantes statiques leurs valeur seront redefinies pour les different heritiers de la classe animal**/
+    /**definition des constantes de classe,  leurs valeur seront redefinies pour les different heritiers de la classe animal**/
 
     /**le nombre de points d'attaque de l'animal**/
     protected int point_attaque = 20;
@@ -53,11 +53,13 @@ public abstract class Animal {
     /** perception : champ de vision de l'animal */
     protected int perception = 20;
 
-
+    /**declaration de l'id**/
+    protected int id;
     /**ON veut eviter du canibalisme donc**/
     protected String espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
 
     public Animal(int nbFaim, int nbSoif, int x, int y) {
+        /**constructeur de la classe**/
         this.faim = nbFaim;
         this.abscisse = x;
         this.ordonnee = y;
@@ -65,6 +67,7 @@ public abstract class Animal {
     }
 
     public String getEspece(){
+        /**permet de savoir si la cible est de la meme espece ou pas (pas de canibalisme**/
         return this.espece;
     }
 
@@ -87,6 +90,7 @@ public abstract class Animal {
             throw new IllegalArgumentException("Les valeurs des deplacement sont plus grandesque les valeur vitesse");
         }
     }
+
     public void boire(int val_eau){
         //valeur d'eau a boire
         this.soif += val_eau;
@@ -94,25 +98,28 @@ public abstract class Animal {
             this.soif = this.soif_max;
         }
     }
+
     public void courrir(int x, int y){
         //ici on definira un deplacement avec une vitesse hautes
         if ((x <= this.vitesseMax) && (y <= this.vitesseMax)) {
-            this.abscisse += x;
-            this.ordonnee += y;
+            this.abscisse += x*this.vitesseMax;
+            this.ordonnee += y*this.vitesseMax;
         }
         else {
             //on leve une exception
             throw new IllegalArgumentException("Les valeurs de deplacement sont plus grandes que les valeurs vitesse");
         }
     }
+
     public boolean est_mort(){
         //si le nombre de points de vie est inferieur a zero tu es mort
         return (point_de_vie <= 0 );
     }
-    public void recois_attque(int val_attaque){
+
+    public void recois_attaque(int val_attaque){
         // il donne la valeur de son attaque a l'adversaire
         if (!this.est_mort()){
-            this.point_de_vie = val_attaque;
+            this.point_de_vie -= val_attaque;
             //on verifie qu'il n'est pas mort avant l'attaque
             if (this.est_mort()){
                 this.meurt();
@@ -121,7 +128,7 @@ public abstract class Animal {
     }
 
     public void meurt(){
-        //fonction de mort
+        /**fonction de mort**/
         this.point_de_vie = 0;
     }
 
@@ -131,6 +138,7 @@ public abstract class Animal {
         this.abscisse += (int)(this.abscisse - this.position_eau_x)*this.vitesse/a;
         this.ordonnee += (int)(this.ordonnee - this.position_eau_y)*this.vitesse/a;
         if (Math.pow((this.abscisse - this.position_eau_x),2) + Math.pow((this.abscisse - this.position_eau_x),2) < Math.pow(this.rayon_eau,2)){
+            /**Sur ou dans le point d'eau**/
             return false;
         }
         return true;
@@ -140,6 +148,7 @@ public abstract class Animal {
         /**Cherche le point d'eau le plus proche, si pas de point d'eau dans le champ de perception,
          * choisit une direction au hasard et s'avance dans cette direction **/
         if ((this.position_eau_x != -1) && (this.position_eau_y != -1)){
+            /**pas de point d'eau trouve**/
             return false;
         }
         if(!((this.position_eau_x == -1 ) ^ (this.position_eau_y == -1 ))){
@@ -186,7 +195,11 @@ public abstract class Animal {
             this.endurance = 0;
         }
     }
-    public int attaque(Animal a){
+    public  int getid() {
+        return this.id;
+    }
+
+    public int attaque(){
         /**avec quelle puissance il attaque**/
         return  this.point_attaque;
     }
