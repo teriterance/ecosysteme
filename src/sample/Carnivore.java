@@ -56,11 +56,16 @@ public class Carnivore extends Animal {
 
     public void poursuivre_cible(Herbivore cible) {
         /** Cas de l'animal idiot qui court simplement vers la position de la cible */
-        double dist = Math.sqrt(Math.pow(cible.abscisse - this.abscisse), 2)
-        double x = (cible.abscisse - this.abscisse) * this.vitesse / dist;
-        this.deplacer(x,y);
-
+        double dist = Math.sqrt(Math.pow(cible.abscisse - this.abscisse, 2) + Math.pow(cible.ordonnee - this.ordonnee, 2));
+        if (dist > this.rayon_action) {
+            double x = (cible.abscisse - this.abscisse) * this.vitesse / dist;
+            double y = (cible.ordonnee - this.ordonnee) * this.vitesse / dist;
+            this.deplacer(x, y);
+        }
     }
+
+
+
 
 
 
