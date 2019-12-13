@@ -20,4 +20,6 @@ public class Herbivore extends Animal{
             }
         }
     }
+
+    public -+
 }
