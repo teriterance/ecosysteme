@@ -37,7 +37,7 @@ public abstract class Animal {
     /**on presente l'adresse du point d'eau qui est visee**/
     protected int id_point_eau_vise = -1;
 
-    /**definition des constantes de classe,  leurs valeur seront redefinies pour les different heritiers de la classe animal**/
+    /**definition des constantes de classe,  leurs valeurs seront redefinies pour les differents heritiers de la classe animal**/
 
     /**le nombre de points d'attaque de l'animal**/
     protected int point_attaque;
