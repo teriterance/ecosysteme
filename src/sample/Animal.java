@@ -57,6 +57,7 @@ public abstract class Animal {
     protected int id;
     /**ON veut eviter du canibalisme donc**/
     protected String espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
+    protected int rayon_action;
 
     public Animal(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, String espece){
         /**constructeur de la classe**/
