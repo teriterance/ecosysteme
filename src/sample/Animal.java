@@ -13,45 +13,49 @@ import java.lang.Math;
 
 public abstract class Animal {
     /** nombre de tours avant d'avoir faim */
-    private int faim;
+    protected int faim;
     /** nombre de tours avant d'avoir soif */
-    private int soif;
+    protected int soif;
     /** nombre de point de vie, si inf à 0, animal meurt*/
-    private int point_de_vie;
+    protected int point_de_vie;
     /** nombre de point de decomposition, si inf à n, animal trop decompose pour etre mange*/
-    private int point_de_decomposition;
+    protected int point_de_decomposition;
     /**abscisse */
-    private int abscisse;
+    protected int abscisse;
     /**ordonnee */
-    private int ordonnee;
+    protected int ordonnee;
     /** endurance actuelle */
     protected int endurance;
     /** vitesse de l'animal */
-    private int vitesse;
+    protected int vitesse;
     /**Pour savoir son etat de recherche d'eau **/
-    private  boolean eau_oui_non = true;// vrais si il cherche de l'eau, faux si il a deja une direction
+    protected  boolean eau_oui_non = true;// vrais si il cherche de l'eau, faux si il a deja une direction
     /**la le point d'eau que l'on cherche **/
-    private int position_eau_x = -1;
-    private  int position_eau_y = -1;
-    private float rayon_eau = -1;
+    protected int position_eau_x = -1;
+    protected  int position_eau_y = -1;
+    protected float rayon_eau = -1;
     /**on presente l'adresse du point d'eau qui est visee**/
-    private int id_point_eau_vise = -1;
+    protected int id_point_eau_vise = -1;
 
     /**definition des constantes statiques leurs valeur seront redefinies pour les different heritiers de la classe animal**/
 
     /**le nombre de points d'attaque de l'animal**/
-    private static int point_attaque = 20;
+    private int point_attaque = 20;
     /** endurance max */
-    private static final int enduranceMax = 20;
+    private int enduranceMax = 20;
     /** vitesseMax de l'animal */
-    private static final int vitesseMax = 20;
+    private int vitesseMax = 20;
     //pour les valeurs faim et soif on par du principe que le min est 0
     /**la valeur max de la faim **/
-    private static final int faim_max = 20;
+    private int faim_max = 20;
     /**la valeur max de la soif**/
-    private static final int soif_max = 20;
+    private int soif_max = 20;
     /** perception : champ de vision de l'animal */
-    private static final int perception = 20;
+    private int perception = 20;
+
+
+    /**ON veut eviter du canibalisme donc**/
+    private String espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
 
     public Animal(int nbFaim, int nbSoif, int x, int y) {
         this.faim = nbFaim;
@@ -86,7 +90,7 @@ public abstract class Animal {
             this.soif = this.soif_max;
         }
     }
-    public void courir(int x, int y){
+    public void courrir(int x, int y){
         //ici on definira un deplacement avec une vitesse hautes
         if ((x <= this.vitesseMax) && (y <= this.vitesseMax)) {
             this.abscisse += x;
@@ -176,8 +180,10 @@ public abstract class Animal {
             this.endurance = 0;
         }
     }
-    public int attaque(){
+    public int attaque(Animal a){
         /**avec quelle puissance il attaque**/
         return  this.point_attaque;
     }
+
+    public
 }

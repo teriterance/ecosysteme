@@ -14,7 +14,7 @@ public class Carnivore extends Animal {
         super(ValnbFaim, ValnbSoif, x, y);
     }
 
-    public int chercheProie(int listeAnimaux) {
+    public int chercheProie(ArrayList <Animal> ) {
         /** Fonction a appeler des que le carnivore cherche une prois à manger:
          * Il choisit sa cible en prenant la proie avec le produit endurance*distance le plus faible
          * Entrees : liste des animaux
