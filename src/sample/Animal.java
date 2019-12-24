@@ -74,10 +74,22 @@ public abstract class Animal {
         this.espece = espece;
     }
 
+
     public String getEspece(){
         /**permet de savoir si la cible est de la meme espece ou pas (pas de canibalisme**/
         return this.espece;
     }
+
+    public  int getId() {
+        /**retourne l'id de l'objet courant**/
+        return this.id;
+    }
+
+    public int getAttaque(){
+        /**avec quelle puissance il attaque**/
+        return  this.point_attaque;
+    }
+
 
     public void manger(int val_nouriture){
         //nourriture est une valeur a modifier selon l'heritier de la fonction
@@ -124,7 +136,7 @@ public abstract class Animal {
         return (point_de_vie <= 0 );
     }
 
-    public void recois_attaque(int val_attaque){
+    public void recoit_attaque(int val_attaque){
         // il donne la valeur de son attaque a l'adversaire
         if (!this.est_mort()){
             this.point_de_vie -= val_attaque;
@@ -152,7 +164,7 @@ public abstract class Animal {
         return true;
     }
 
-    public boolean chercher_a_boire(ArrayList<Poin_eau> eaus) {
+    public boolean chercher_a_boire(ArrayList<Point_eau> eaus) {
         /**Cherche le point d'eau le plus proche, si pas de point d'eau dans le champ de perception,
          * choisit une direction au hasard et s'avance dans cette direction **/
         if ((this.position_eau_x != -1) && (this.position_eau_y != -1)){
@@ -203,15 +215,6 @@ public abstract class Animal {
             this.point_de_vie = 0;
             this.endurance = 0;
         }
-    }
-    public  int getid() {
-        /**retourne l'id de l'objet couran**/
-        return this.id;
-    }
-
-    public int getattaque(){
-        /**avec quelle puissance il attaque**/
-        return  this.point_attaque;
     }
 
 }
