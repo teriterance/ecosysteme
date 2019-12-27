@@ -264,4 +264,16 @@ public abstract class Animal {
             this.soif = 0;
         }
     }
+
+    public boolean check_rayonDaction(int x, int y) {
+        /** outil permettant de savoir si l'objet ciblé est dans le rayon d'action (pour boire ou manger par exemple)
+        * retourne true si dans le rayon d'action; false sinon **/
+        int dist = calcule_distance(x, y);
+        if (dist <= this.rayon_action) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
