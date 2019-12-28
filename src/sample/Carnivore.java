@@ -18,16 +18,16 @@ public class Carnivore extends Animal {
     protected int ciblex = 0;
     protected int cibley = 0;
 
-    public Carnivore(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, String espece) {
+    public Carnivore(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom) {
 
-        super(nbFaim, nbSoif, x, y, attqu, endur, vitMax, fMax, sMax, prcptn, decom, espece);
+        super(nbFaim, nbSoif, x, y, attqu, endur, vitMax, fMax, sMax, prcptn, decom, 1);
     }
 
     public void chercheProie(ArrayList <Animal> listeAnimaux) {
         /** Fonction a appeler des que le carnivore cherche une prois à manger:
          * Il choisit sa cible en prenant la proie avec le produit endurance*distance le plus faible
          * Entrees : liste des animaux
-         * Sorties : True si cible et l'ID de la cible/ False sinon et 0
+         * Sorties : void
          *
          */
 
@@ -43,33 +43,58 @@ public class Carnivore extends Animal {
         double dist = 0;
 
         /** l'id de la cible choisie */
-        Animal ciblef;
+        Animal ciblef = null;
 
         /** au cas où on ne trouve pas de cible **/
         int test_cible = 0;
 
         // Parcours de la liste des animaux
         for (int counter = 0 ; counter < listeAnimaux.size() ; counter++){
-            cible = listeAnimaux.get(counter);
-            dist = calcule_distance(cible.abscisse, cible.ordonnee);
-            if (dist < this.perception) {
-                valProduit = dist * cible.endurance;
-                if (valProduit < min) {
-                    test_cible = 1;
-                    ciblef = cible;
-                    min = valProduit;
+            if (listeAnimaux.get(counter).getEspece() == 3) {
+                cible = listeAnimaux.get(counter);
+                dist = calcule_distance(cible.abscisse, cible.ordonnee);
+                if (dist < this.perception) {
+                    valProduit = dist * cible.endurance;
+                    if (valProduit < min) {
+                        test_cible = 1;
+                        ciblef = cible;
+                        min = valProduit;
+                    }
                 }
             }
         }
         if (test_cible == 1) {
-            this.cible = ciblef.getId();
+            this.cible = ciblef.getId(); // erreur sur le ciblef pas définie ???  -> j'ai rajouté null
             this.ciblex = ciblef.abscisse;
             this.cibley = ciblef.ordonnee;
         }
-
-
     }
 
+    public void attaquer(ArrayList <Animal> listeAnimaux) {
+        /** fonction pour attaquer la cible définie par l'id **/
+        Animal ciblei = null;
+        int test = 0; // au cas où la cible est déjà morte
+        for (int counter = 0 ; counter < listeAnimaux.size() ; counter++) {
+            if (listeAnimaux.get(counter).getId() == this.cible) {
+                ciblei = listeAnimaux.get(counter);
+                test = 1;
+            }
+        }
+        if (test == 1) {
+            ciblei.meurt();
+            ciblei.transformerEnCadavre(); // A DEFINIR : on supprime l'animal et on créé un cadavre aux coords x y
+            manger(this.faim_max);
+            this.cible = -1;
+            this.ciblex = 0;
+            this.cibley = 0;
+        }
+        else {
+            this.cible = -1;
+            this.ciblex = 0;
+            this.cibley = 0;
+
+        }
+    }
 
     public void vivre(ArrayList<Point_eau> list_eaux, ArrayList<Animal> listeAnimaux) {
         /** fonction à laquel on fait appel à chaque tour pour que le carnivore vive **/
@@ -110,28 +135,25 @@ public class Carnivore extends Animal {
             if (this.cible == -1) {
                 chercheProie(listeAnimaux);
             }
-            /**
             if (this.cible == -1){
                 chercherAleatoirement(); //A DEFINIR si pas de cible trouvée chercher aléatoirement
             }
             else {
                 if (check_rayonDaction(this.ciblex, this.cibley) == true) {
-                    attaquer(); //A DEFINIR
+                    attaquer(listeAnimaux);
                 }
                 else {
                     poursuivre(); //A DEFINIR
                 }
             }
-             **/
         }
 
 
         /** SI NI FAIM NI SOIF : **/
-        /**
         if (prio == 0){
             bougerAleatoirement(); //A DEFINIR
         }
-        **/
+
     }
 
 

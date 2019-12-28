@@ -12,9 +12,9 @@ import java.lang.Math;
 
 
 public abstract class Animal {
+
     /** valeur critique avant d'avoir faim ou soif **/
     protected int valcrit = 10;
-    
     /** nombre de tours avant d'avoir faim */
     protected int faim;
     /** nombre de tours avant d'avoir soif */
@@ -59,10 +59,12 @@ public abstract class Animal {
     /**declaration de l'id**/
     protected int id;
     /**ON veut eviter du canibalisme donc**/
-    protected String espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
+    /** 0 par défaut, 1 : Carnivore, 2 : Charognard, 3 : Herbivore, 4 : Cadavre **/
+    protected int espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
+
     protected int rayon_action;
 
-    public Animal(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, String espece){
+    public Animal(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, int espece){
         /**constructeur de la classe**/
         this.faim = nbFaim;
         this.abscisse = x;
@@ -78,7 +80,7 @@ public abstract class Animal {
     }
 
 
-    public String getEspece(){
+    public int getEspece(){
         /**permet de savoir si la cible est de la meme espece ou pas (pas de canibalisme**/
         return this.espece;
     }
@@ -160,7 +162,7 @@ public abstract class Animal {
         double a = Math.sqrt(this.position_eau_y*this.position_eau_y + this.position_eau_x*this.position_eau_x);
         this.abscisse += (int)(this.abscisse - this.position_eau_x)*this.vitesse/a;
         this.ordonnee += (int)(this.ordonnee - this.position_eau_y)*this.vitesse/a;
-        if (Math.pow((this.abscisse - this.position_eau_x),2) + Math.pow((this.abscisse - this.position_eau_x),2) < Math.pow(this.rayon_eau,2)){
+        if (check_rayonDaction(this.position_eau_x, this.position_eau_y)){
             /**Sur ou dans le point d'eau**/
             return false;
         }
