@@ -2,7 +2,7 @@ package sample;
 import java.util.*;
 import java.util.ListIterator;
 import java.util.LinkedList;
-import math.h;
+import java.lang.Math;
 
 
 /** ATTENTION : valeurs à modifier par leur valeurs numériques :
@@ -18,12 +18,12 @@ public class Carnivore extends Animal {
     protected int ciblex = 0;
     protected int cibley = 0;
 
-    public Carnivore(int x, int y) {
+    public Carnivore(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, String espece) {
 
-        super(ValnbFaim, ValnbSoif, x, y);
+        super(nbFaim, nbSoif, x, y, attqu, endur, vitMax, fMax, sMax, prcptn, decom, espece);
     }
 
-    public void chercheProie(ArrayList <Animal> listeAnimaux ) {
+    public void chercheProie(ArrayList <Animal> listeAnimaux) {
         /** Fonction a appeler des que le carnivore cherche une prois à manger:
          * Il choisit sa cible en prenant la proie avec le produit endurance*distance le plus faible
          * Entrees : liste des animaux
@@ -35,12 +35,12 @@ public class Carnivore extends Animal {
         Animal cible;
 
         /** enduranceCible*distance min */
-        int min = 100000;
+        double min = 100000;
         /** valeur produit  enduranceCible*distance A DEFINIR */
-        int valProduit = 0;
+        double valProduit = 0;
 
         /** distance cible-proie */
-        int dist = 0;
+        double dist = 0;
 
         /** l'id de la cible choisie */
         Animal ciblef;
@@ -71,7 +71,7 @@ public class Carnivore extends Animal {
     }
 
 
-    public void vivre() {
+    public void vivre(ArrayList<Point_eau> list_eaux, ArrayList<Animal> listeAnimaux) {
         /** fonction à laquel on fait appel à chaque tour pour que le carnivore vive **/
         int ptvie_perdu_par_tour = 1;
         int ptend_perdu_par_tour = 1;
@@ -108,8 +108,9 @@ public class Carnivore extends Animal {
         /** SI FAIM : **/
         if (prio == 1) {
             if (this.cible == -1) {
-                this.cible = chercheProie(listeAnimaux);
+                chercheProie(listeAnimaux);
             }
+            /**
             if (this.cible == -1){
                 chercherAleatoirement(); //A DEFINIR si pas de cible trouvée chercher aléatoirement
             }
@@ -121,12 +122,16 @@ public class Carnivore extends Animal {
                     poursuivre(); //A DEFINIR
                 }
             }
+             **/
         }
 
+
         /** SI NI FAIM NI SOIF : **/
+        /**
         if (prio == 0){
             bougerAleatoirement(); //A DEFINIR
         }
+        **/
     }
 
 

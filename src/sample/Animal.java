@@ -225,6 +225,7 @@ public abstract class Animal {
          * true s'il n'y en a pas, false si un animal est déjà présent aux coordonées données
          * **/
         int bool = 1;
+        Animal animal;
         for (int counter = 0 ; counter < listeAnimaux.size() ; counter++) {
             animal = listeAnimaux.get(counter);
             if ((animal.abscisse == x) && (animal.ordonnee == y)) {
@@ -239,12 +240,12 @@ public abstract class Animal {
         }
     }
 
-    public int calcule_distance(int x, int y) {
+    public double calcule_distance(int x, int y) {
         /** outil de calcul de distance de l'animal aux coordonnées (x, y) **/
 
         /** Distance **/
-        int dist;
-        dist = pow(pow(this.abscisse - x, 2) + pow(this.ordonnee - y, 2), 0.5);
+        double dist;
+        dist = Math.pow(Math.pow(this.abscisse - x, 2) + Math.pow(this.ordonnee - y, 2), 0.5);
         return dist;
     }
 
@@ -268,7 +269,7 @@ public abstract class Animal {
     public boolean check_rayonDaction(int x, int y) {
         /** outil permettant de savoir si l'objet ciblé est dans le rayon d'action (pour boire ou manger par exemple)
         * retourne true si dans le rayon d'action; false sinon **/
-        int dist = calcule_distance(x, y);
+        double dist = calcule_distance(x, y);
         if (dist <= this.rayon_action) {
             return true;
         }
