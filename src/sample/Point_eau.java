@@ -1,6 +1,6 @@
 package sample;
 
-public class Poin_eau {
+public class Point_eau {
     /**Le nombre de point d'eau**/
     protected static int nb_point_eau = 0;
 
@@ -12,7 +12,7 @@ public class Poin_eau {
     private int id_point_eau = -1;
 
     /*constructeur**/
-    public Poin_eau(int x, int y, float rayon){
+    public Point_eau(int x, int y, float rayon){
         this.abscisse = x;
         this.ordonnee = y;
         this.rayon = rayon;

@@ -12,6 +12,9 @@ import java.lang.Math;
 
 
 public abstract class Animal {
+
+    /** valeur critique avant d'avoir faim ou soif **/
+    protected int valcrit = 10;
     /** nombre de tours avant d'avoir faim */
     protected int faim;
     /** nombre de tours avant d'avoir soif */
@@ -56,10 +59,12 @@ public abstract class Animal {
     /**declaration de l'id**/
     protected int id;
     /**ON veut eviter du canibalisme donc**/
-    protected String espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
+    /** 0 par défaut, 1 : Carnivore, 2 : Charognard, 3 : Herbivore, 4 : Cadavre **/
+    protected int espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
+
     protected int rayon_action;
 
-    public Animal(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, String espece){
+    public Animal(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, int espece){
         /**constructeur de la classe**/
         this.faim = nbFaim;
         this.abscisse = x;
@@ -74,10 +79,22 @@ public abstract class Animal {
         this.espece = espece;
     }
 
-    public String getEspece(){
+
+    public int getEspece(){
         /**permet de savoir si la cible est de la meme espece ou pas (pas de canibalisme**/
         return this.espece;
     }
+
+    public  int getId() {
+        /**retourne l'id de l'objet courant**/
+        return this.id;
+    }
+
+    public int getAttaque(){
+        /**avec quelle puissance il attaque**/
+        return  this.point_attaque;
+    }
+
 
     public void manger(int val_nouriture){
         //nourriture est une valeur a modifier selon l'heritier de la fonction
@@ -124,7 +141,7 @@ public abstract class Animal {
         return (point_de_vie <= 0 );
     }
 
-    public void recois_attaque(int val_attaque){
+    public void recoit_attaque(int val_attaque){
         // il donne la valeur de son attaque a l'adversaire
         if (!this.est_mort()){
             this.point_de_vie -= val_attaque;
@@ -145,14 +162,14 @@ public abstract class Animal {
         double a = Math.sqrt(this.position_eau_y*this.position_eau_y + this.position_eau_x*this.position_eau_x);
         this.abscisse += (int)(this.abscisse - this.position_eau_x)*this.vitesse/a;
         this.ordonnee += (int)(this.ordonnee - this.position_eau_y)*this.vitesse/a;
-        if (Math.pow((this.abscisse - this.position_eau_x),2) + Math.pow((this.abscisse - this.position_eau_x),2) < Math.pow(this.rayon_eau,2)){
+        if (check_rayonDaction(this.position_eau_x, this.position_eau_y)){
             /**Sur ou dans le point d'eau**/
             return false;
         }
         return true;
     }
 
-    public boolean chercher_a_boire(ArrayList<Poin_eau> eaus) {
+    public boolean chercher_a_boire(ArrayList<Point_eau> eaux) {
         /**Cherche le point d'eau le plus proche, si pas de point d'eau dans le champ de perception,
          * choisit une direction au hasard et s'avance dans cette direction **/
         if ((this.position_eau_x != -1) && (this.position_eau_y != -1)){
@@ -164,23 +181,23 @@ public abstract class Animal {
         }
         /**cas ou on initialise les choses **/
         float dist_min = 100000;
-        for (int counter = 0 ; counter < eaus.size() ; counter++){
-            int c = eaus.get(counter).get_abscisse();
-            int d = eaus.get(counter).get_ordonnee();
+        for (int counter = 0 ; counter < eaux.size() ; counter++){
+            int c = eaux.get(counter).get_abscisse();
+            int d = eaux.get(counter).get_ordonnee();
             double a = Math.pow((this.abscisse - c),2) + Math.pow((this.abscisse - d),2);
             if ( a < dist_min && a < this.perception){
                 this.position_eau_x = c;
                 this.position_eau_y = d;
-                this.id_point_eau_vise = eaus.get(counter).get_id_point_eau();
-                this.rayon_eau = eaus.get(counter).getRayon();
+                this.id_point_eau_vise = eaux.get(counter).get_id_point_eau();
+                this.rayon_eau = eaux.get(counter).getRayon();
             }
         }
-        return position_eau_x != -1 && position_eau_x != -1;
+        return position_eau_x != -1 && position_eau_y != -1;
     }
 
     public void meurt_de_faimsoif(int viem, int endm) {
         /** Si l'animal a faim ou soif il perd de la vie et de l'endurance jusqu'a mourir
-         * on prend en compte les cas où ls points de vie ou l'ndurance peuvent être inferieurs a 0*/
+         * on prend en compte les cas où ls points de vie ou l'ndurance peuvent être inferieurs a 0**/
         int diffpdv = this.point_de_vie - viem;
         int diffend = this.endurance - endm;
 
@@ -204,14 +221,62 @@ public abstract class Animal {
             this.endurance = 0;
         }
     }
-    public  int getid() {
-        /**retourne l'id de l'objet couran**/
-        return this.id;
+
+    public boolean check_position(int x, int y, ArrayList <Animal> listeAnimaux) {
+        /** retourne un booléen pour savoir si un animal est déjà présent aux coord données
+         * true s'il n'y en a pas, false si un animal est déjà présent aux coordonées données
+         * **/
+        int bool = 1;
+        Animal animal;
+        for (int counter = 0 ; counter < listeAnimaux.size() ; counter++) {
+            animal = listeAnimaux.get(counter);
+            if ((animal.abscisse == x) && (animal.ordonnee == y)) {
+                bool = 0;
+            }
+        }
+        if (bool ==1) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public int getattaque(){
-        /**avec quelle puissance il attaque**/
-        return  this.point_attaque;
+    public double calcule_distance(int x, int y) {
+        /** outil de calcul de distance de l'animal aux coordonnées (x, y) **/
+
+        /** Distance **/
+        double dist;
+        dist = Math.pow(Math.pow(this.abscisse - x, 2) + Math.pow(this.ordonnee - y, 2), 0.5);
+        return dist;
     }
 
+    public void plusfaimplussoif() {
+        /** l'animal à plus faim et plus soif chaque tour **/
+        int ptfaim = 1;
+        int ptsoif = 1;
+
+        this.faim = this.faim - ptfaim;
+        this.soif = this.soif - ptsoif;
+
+        if (this.faim < 0) {
+            this.faim = 0;
+        }
+
+        if (this.soif < 0) {
+            this.soif = 0;
+        }
+    }
+
+    public boolean check_rayonDaction(int x, int y) {
+        /** outil permettant de savoir si l'objet ciblé est dans le rayon d'action (pour boire ou manger par exemple)
+        * retourne true si dans le rayon d'action; false sinon **/
+        double dist = calcule_distance(x, y);
+        if (dist <= this.rayon_action) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
