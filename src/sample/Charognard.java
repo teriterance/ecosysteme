@@ -12,7 +12,7 @@ public class Charognard extends Animal {
         //A MODIFIER AVEC LES VALEURS PAR DEFAUT :
     public Charognard(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, String espece) {
 
-        super(nbFaim, nbSoif, x, y, attqu, endur, vitMax, fMax, sMax, prcptn, decom, 2);
+        super(nbFaim, nbSoif, x, y, attqu, endur, vitMax, fMax, sMax, prcptn, decom, 0);
     }
 
     public void chercheCadavre(ArrayList<Animal> listeAnimaux) {

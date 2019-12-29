@@ -2,6 +2,7 @@ package sample;
 
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.Random;
 
 /**Valeurs des differentes classes :
  * Herbivore : enduranceMax = x, perception = x, point_de_vie départ = x, vitesseMax = x,
@@ -44,9 +45,9 @@ public abstract class Animal {
 
     /**le nombre de points d'attaque de l'animal**/
     protected int point_attaque;
-    /** endurance max */
+    /** endurance max **/
     protected int enduranceMax;
-    /** vitesseMax de l'animal */
+    /** vitesseMax de l'animal **/
     protected int vitesseMax;
     //pour les valeurs faim et soif on par du principe que le min est 0
     /**la valeur max de la faim **/
@@ -79,9 +80,8 @@ public abstract class Animal {
         this.espece = espece;
     }
 
-
     public int getEspece(){
-        /**permet de savoir si la cible est de la meme espece ou pas (pas de canibalisme**/
+        /**permet de savoir si la cible est de la meme espece ou pas (pas de canibalisme)**/
         return this.espece;
     }
 
@@ -95,6 +95,17 @@ public abstract class Animal {
         return  this.point_attaque;
     }
 
+    public int get_x(){
+        return this.abscisse;
+    }
+
+    public int get_y(){
+        return this.ordonnee;
+    }
+
+    public int get_endurance(){
+        return  this.endurance;
+    }
 
     public void manger(int val_nouriture){
         //nourriture est une valeur a modifier selon l'heritier de la fonction
@@ -251,11 +262,8 @@ public abstract class Animal {
         return dist;
     }
 
-    public void plusfaimplussoif() {
+    public void plusfaimplussoif(int ptfaim ,int ptsoif) {
         /** l'animal à plus faim et plus soif chaque tour **/
-        int ptfaim = 1;
-        int ptsoif = 1;
-
         this.faim = this.faim - ptfaim;
         this.soif = this.soif - ptsoif;
 
@@ -278,5 +286,11 @@ public abstract class Animal {
         else {
             return false;
         }
+    }
+
+    public void bougerAleatoirement(){
+        Random r = new Random();
+        this.abscisse += r.nextInt(vitesse + 1);
+        this.ordonnee += r.nextInt(vitesse + 1);
     }
 }

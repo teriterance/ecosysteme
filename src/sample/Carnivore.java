@@ -15,12 +15,26 @@ public class Carnivore extends Animal {
 
     /** id de la cible (différent de la valeur par défaut x) **/
     protected int cible = -1;
-    protected int ciblex = 0;
-    protected int cibley = 0;
 
-    public Carnivore(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom) {
+    int ptvie_perdu_par_tour = 1;
+    int ptend_perdu_par_tour = 1;
 
-        super(nbFaim, nbSoif, x, y, attqu, endur, vitMax, fMax, sMax, prcptn, decom, 1);
+    public Carnivore(int x, int y) {
+        /**definition des valeurs
+         * nbFaim: 100,  nbSoif: 100, fMax: 100, sMax: 100
+         * position x, y
+         * prcptn: 18, decomp 100
+         * espece : 1
+         **/
+        super(100, 100, x, y, 20, 50, 5, 100, 100, 18, 100, 1);
+    }
+
+    public boolean est_en_poursuite(){
+        /**permet de savoir si le predateur a deja une cible dans sa ligne de mire**/
+        if( this.cible != -1){
+            return true;
+        }
+        return  false;
     }
 
     public void chercheProie(ArrayList <Animal> listeAnimaux) {
@@ -28,81 +42,52 @@ public class Carnivore extends Animal {
          * Il choisit sa cible en prenant la proie avec le produit endurance*distance le plus faible
          * Entrees : liste des animaux
          * Sorties : void
-         *
          */
 
-        /** ID de la cible en cours */
-        Animal cible;
-
-        /** enduranceCible*distance min */
-        double min = 100000;
-        /** valeur produit  enduranceCible*distance A DEFINIR */
-        double valProduit = 0;
+        /** enduranceCible*distance min on peut jouer sur ceci pour augmenter le rayon d'action */
+        double min = 10000;
 
         /** distance cible-proie */
         double dist = 0;
 
-        /** l'id de la cible choisie */
-        Animal ciblef = null;
-
-        /** au cas où on ne trouve pas de cible **/
-        int test_cible = 0;
-
         // Parcours de la liste des animaux
         for (int counter = 0 ; counter < listeAnimaux.size() ; counter++){
-            if (listeAnimaux.get(counter).getEspece() == 3) {
-                cible = listeAnimaux.get(counter);
-                dist = calcule_distance(cible.abscisse, cible.ordonnee);
+            if (listeAnimaux.get(counter).getEspece() == 2) {
+                dist = calcule_distance(listeAnimaux.get(counter).get_x(), listeAnimaux.get(counter).get_y());
                 if (dist < this.perception) {
-                    valProduit = dist * cible.endurance;
+                    double valProduit = dist * listeAnimaux.get(counter).get_endurance();
                     if (valProduit < min) {
-                        test_cible = 1;
-                        ciblef = cible;
+                        this.cible = listeAnimaux.get(counter).getId();
                         min = valProduit;
                     }
                 }
             }
         }
-        if (test_cible == 1) {
-            this.cible = ciblef.getId(); // erreur sur le ciblef pas définie ???  -> j'ai rajouté null
-            this.ciblex = ciblef.abscisse;
-            this.cibley = ciblef.ordonnee;
-        }
     }
 
     public void attaquer(ArrayList <Animal> listeAnimaux) {
         /** fonction pour attaquer la cible définie par l'id **/
-        Animal ciblei = null;
-        int test = 0; // au cas où la cible est déjà morte
         for (int counter = 0 ; counter < listeAnimaux.size() ; counter++) {
             if (listeAnimaux.get(counter).getId() == this.cible) {
-                ciblei = listeAnimaux.get(counter);
-                test = 1;
+                if(listeAnimaux.get(counter).est_mort()){
+                    //on reinitiallise sa recherche de cible
+                    this.cible = -1;
+                }else{
+                    this.manger(this.faim_max);
+                    listeAnimaux.get(counter).meurt();
+                    this.cible = -1;
+                }
             }
-        }
-        if (test == 1) {
-            ciblei.meurt();
-            ciblei.transformerEnCadavre(); // A DEFINIR : on supprime l'animal et on créé un cadavre aux coords x y
-            manger(this.faim_max);
-            this.cible = -1;
-            this.ciblex = 0;
-            this.cibley = 0;
-        }
-        else {
-            this.cible = -1;
-            this.ciblex = 0;
-            this.cibley = 0;
-
         }
     }
 
     public void vivre(ArrayList<Point_eau> list_eaux, ArrayList<Animal> listeAnimaux) {
         /** fonction à laquel on fait appel à chaque tour pour que le carnivore vive **/
-        int ptvie_perdu_par_tour = 1;
-        int ptend_perdu_par_tour = 1;
 
-        /** L'animal à de plus en plus faim chaque tour **/
-        plusfaimplussoif();
+        /** L'animal à de plus en plus faim chaque tour si il le peut **/
+        if ((this.soif >= 0) || (this.faim >= 0)) {
+            plusfaimplussoif(ptend_perdu_par_tour, ptend_perdu_par_tour);
+        }
 
         /**SI MEURT DE faim ou soif **/
         if ((this.soif==0) || (this.faim==0)) {
@@ -133,29 +118,32 @@ public class Carnivore extends Animal {
         /** SI FAIM : **/
         if (prio == 1) {
             if (this.cible == -1) {
-                chercheProie(listeAnimaux);
-            }
-            if (this.cible == -1){
-                chercherAleatoirement(); //A DEFINIR si pas de cible trouvée chercher aléatoirement
+                this.chercheProie(listeAnimaux);
             }
             else {
                 if (check_rayonDaction(this.ciblex, this.cibley) == true) {
-                    attaquer(listeAnimaux);
+                    this.attaquer(listeAnimaux);
                 }
                 else {
-                    poursuivre(); //A DEFINIR
+                    this.poursuivre(listeAnimaux); //A DEFINIR
                 }
             }
         }
 
-
         /** SI NI FAIM NI SOIF : **/
         if (prio == 0){
-            bougerAleatoirement(); //A DEFINIR
+            this.bougerAleatoirement(); //A DEFINIR
         }
 
     }
 
-
-
+    public void poursuivre( ArrayList<Animal> listeAnimaux) {
+        for (int counter = 0; counter < listeAnimaux.size(); counter++) {
+            if (listeAnimaux.get(counter).getId() == this.cible) {
+                double a = Math.sqrt(listeAnimaux.get(counter).get_x()*listeAnimaux.get(counter).get_x() + listeAnimaux.get(counter).get_y()*listeAnimaux.get(counter).get_y());
+                this.abscisse += (int)(this.abscisse - listeAnimaux.get(counter).get_x())*this.vitesse/a;
+                this.ordonnee += (int)(this.ordonnee - listeAnimaux.get(counter).get_y())*this.vitesse/a;
+            }
+        }
+    }
 }
