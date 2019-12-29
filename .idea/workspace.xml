@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
-=======
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Carnivore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Carnivore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Herbivore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Herbivore.java" afterDir="false" />
     </list>
->>>>>>> d1def8bb72ebfd615c34b12e980c43a72c47508f
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -217,12 +213,10 @@
       <workItem from="1575644482704" duration="2338000" />
       <workItem from="1575706793951" duration="3047000" />
       <workItem from="1575713854516" duration="240000" />
-<<<<<<< HEAD
       <workItem from="1575754078009" duration="4221000" />
-=======
       <workItem from="1575754078009" duration="3873000" />
       <workItem from="1575894294913" duration="3527000" />
->>>>>>> d1def8bb72ebfd615c34b12e980c43a72c47508f
+      <workItem from="1576279463051" duration="206000" />
     </task>
     <servers />
   </component>
@@ -248,6 +242,10 @@
     </state>
     <state x="366" y="209" key="com.intellij.ide.util.TipDialog/67.27.1299.741/1366.0.1680.1050@67.27.1299.741" timestamp="1575706793009" />
     <state x="366" y="209" key="com.intellij.ide.util.TipDialog/67.27.1299.741@67.27.1299.741" timestamp="1575754212861" />
+    <state x="67" y="100" width="1289" height="592" key="new project wizard" timestamp="1576279668852">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state x="67" y="100" width="1289" height="592" key="new project wizard/67.27.1299.741/1366.0.1680.1050@67.27.1299.741" timestamp="1576279668852" />
     <state x="457" y="196" key="run.anything.popup" timestamp="1575755656845">
       <screen x="67" y="27" width="1299" height="741" />
     </state>

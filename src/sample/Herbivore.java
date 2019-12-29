@@ -16,10 +16,8 @@ public class Herbivore extends Animal{
             super.recois_attaque(a.getattaque());
             if(!this.est_mort()){
                 /**si il n'est pas mort il riposte**/
-                a.recois_attaque(this);
             }
         }
     }
 
-    public -+
 }
