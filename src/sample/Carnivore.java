@@ -38,7 +38,7 @@ public class Carnivore extends Animal {
         return  false;
     }
 
-    public void chercheProie(ArrayList <Animal> listeAnimaux) {
+    public void chercheProie(ArrayList <Herbivore> listeAnimaux) {
         /** Fonction a appeler des que le carnivore cherche une prois à manger:
          * Il choisit sa cible en prenant la proie avec le produit endurance*distance le plus faible
          * Entrees : liste des animaux
@@ -72,7 +72,7 @@ public class Carnivore extends Animal {
         }
     }
 
-    public void attaquer(ArrayList <Animal> listeAnimaux) {
+    public void attaquer(ArrayList <Herbivore> listeAnimaux) {
         /** fonction pour attaquer la cible définie par l'id **/
         for (int counter = 0 ; counter < listeAnimaux.size() ; counter++) {
             if (listeAnimaux.get(counter).getId() == this.cible) {
@@ -80,7 +80,9 @@ public class Carnivore extends Animal {
                     //on reinitiallise sa recherche de cible
                     this.cible = -1;
                 }else{
+                    this.cible  = listeAnimaux.get(counter).getId();
                     if(check_rayonDaction(listeAnimaux.get(counter).get_x(), listeAnimaux.get(counter).get_y())) {
+                        System.out.println("je suis un carnivore et j'attaque un herbivore");
                         this.manger(this.faim_max);
                         listeAnimaux.get(counter).meurt();
                         this.cible = -1;
@@ -90,9 +92,8 @@ public class Carnivore extends Animal {
         }
     }
 
-    public void vivre(ArrayList<Point_eau> list_eaux, ArrayList<Animal> listeAnimaux) {
+    public void vivre(ArrayList<Point_eau> list_eaux, ArrayList<Herbivore> listeAnimaux) {
         /** fonction à laquel on fait appel à chaque tour pour que le carnivore vive **/
-
         /** L'animal à de plus en plus faim chaque tour si il le peut **/
         if ((this.soif >= 0) || (this.faim >= 0)) {
             plusfaimplussoif(ptend_perdu_par_tour, ptend_perdu_par_tour);
@@ -115,11 +116,12 @@ public class Carnivore extends Animal {
             }
         }
 
-        /** SI SOIF : **/
+        /** si la soif est prioritaire : **/
         if (prio == 2) {
             /** initialisation du point d'eau à viser s'il n'existe pas **/
-            if (this.id_point_eau_vise==-1){
-                chercher_a_boire(list_eaux); // A DEFINIR : initialisation du point d'eau visé
+            if (chercher_a_boire(list_eaux)){
+                deplace_vers_point_eau(); // A DEFINIR : initialisation du point d'eau visé
+                System.out.println("je vais vers un point d'eau");
             }
             deplace_vers_point_eau();
         }
@@ -128,8 +130,7 @@ public class Carnivore extends Animal {
         if (prio == 1) {
             if (this.cible == -1) {
                 this.chercheProie(listeAnimaux);
-            }
-            else {
+            }else {
                 this.attaquer(listeAnimaux);
                 this.poursuivre(listeAnimaux); //A DEFINIR
             }
@@ -139,18 +140,22 @@ public class Carnivore extends Animal {
         if (prio == 0){
             this.bougerAleatoirement(); //A DEFINIR
         }
-
     }
 
-    public void poursuivre( ArrayList<Animal> listeAnimaux) {
+    public void poursuivre( ArrayList<Herbivore> listeAnimaux) {
+        /**Denifnit comment un Carnivore poursuit une proie
+         * Sa position s'incremente d'une composante de vitesse
+         * **/
         if (this.cible != -1) {
             for (int counter = 0; counter < listeAnimaux.size(); counter++) {
                 if (listeAnimaux.get(counter).getId() == this.cible) {
                     double a = Math.sqrt(listeAnimaux.get(counter).get_x() * listeAnimaux.get(counter).get_x() + listeAnimaux.get(counter).get_y() * listeAnimaux.get(counter).get_y());
                     this.abscisse += (int) (this.abscisse - listeAnimaux.get(counter).get_x()) * this.vitesse / a;
                     this.ordonnee += (int) (this.ordonnee - listeAnimaux.get(counter).get_y()) * this.vitesse / a;
+                    System.out.println("je ne poursuit une cible");
                 }
             }
         }
     }
+
 }

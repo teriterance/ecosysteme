@@ -151,7 +151,10 @@ public abstract class Animal {
 
     public boolean est_mort(){
         //si le nombre de points de vie est inferieur a zero tu es mort
-        return (point_de_vie <= 0 );
+        if (point_de_vie <= 0 ){
+            return true;
+        }
+        return false;
     }
 
     public void recoit_attaque(int val_attaque){
@@ -188,9 +191,6 @@ public abstract class Animal {
         if ((this.position_eau_x != -1) && (this.position_eau_y != -1)){
             /**pas de point d'eau trouve**/
             return false;
-        }
-        if(!((this.position_eau_x == -1 ) ^ (this.position_eau_y == -1 ))){
-            throw new IllegalArgumentException("erreur de signe, la position du point d'eau ne peut pas etre negative");
         }
         /**cas ou on initialise les choses **/
         float dist_min = 100000;
@@ -292,7 +292,13 @@ public abstract class Animal {
 
     public void bougerAleatoirement(){
         Random r = new Random();
-        this.abscisse += r.nextInt(vitesse + 1);
-        this.ordonnee += r.nextInt(vitesse + 1);
+        if( Math.random() < 0.5) {
+            this.abscisse += r.nextInt(this.vitesseMax + 1);
+            this.ordonnee += r.nextInt(this.vitesseMax + 1);
+        }else{
+            this.abscisse -= r.nextInt(this.vitesseMax + 1);
+            this.ordonnee -= r.nextInt(this.vitesseMax + 1);
+        }
+        System.out.println("je bouge aleatoirement" + String.valueOf(this.abscisse) + " "+ String.valueOf(this.ordonnee));
     }
 }
