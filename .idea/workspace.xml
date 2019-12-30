@@ -4,10 +4,10 @@
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Cadavre.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Carnivore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Carnivore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Charognard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Charognard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Herbivore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Herbivore.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +108,7 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="recentsLimit" value="5" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Controller">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -133,6 +133,20 @@
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
+    </configuration>
+    <configuration name="Controller" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="sample.Controller" />
+      <module name="Projet_ecosysteme" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sample.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="sample.Main" />
@@ -187,6 +201,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Controller" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -221,7 +240,7 @@
       <workItem from="1575894294913" duration="3527000" />
       <workItem from="1576279463051" duration="206000" />
       <workItem from="1577648126862" duration="1355000" />
-      <workItem from="1577654931296" duration="5396000" />
+      <workItem from="1577654931296" duration="9029000" />
     </task>
     <servers />
   </component>
@@ -242,6 +261,22 @@
     </state>
     <state x="549" y="138" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1575639373341" />
     <state x="531" y="151" width="424" height="484" key="FileChooserDialogImpl/67.27.1299.741@67.27.1299.741" timestamp="1575644494010" />
+    <state width="1253" height="175" key="GridCell.Tab.0.bottom" timestamp="1577664092599">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1253" height="175" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1577664092599" />
+    <state width="1253" height="175" key="GridCell.Tab.0.center" timestamp="1577664092598">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1253" height="175" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1577664092598" />
+    <state width="1253" height="175" key="GridCell.Tab.0.left" timestamp="1577664092598">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1253" height="175" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1577664092598" />
+    <state width="1253" height="175" key="GridCell.Tab.0.right" timestamp="1577664092599">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1253" height="175" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1577664092599" />
     <state x="249" y="0" key="SettingsEditor" timestamp="1575639374831">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

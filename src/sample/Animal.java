@@ -13,7 +13,7 @@ import java.util.Random;
 
 
 public abstract class Animal {
-
+    protected static  int IDD = 0;
     /** valeur critique avant d'avoir faim ou soif **/
     protected int valcrit = 10;
     /** nombre de tours avant d'avoir faim */
@@ -78,6 +78,8 @@ public abstract class Animal {
         this.soif_max = sMax;
         this.perception = prcptn;
         this.espece = espece;
+        this.id = IDD;
+        IDD++;
     }
 
     public int getEspece(){

@@ -11,9 +11,9 @@ public class Herbivore extends Animal{
     protected int ciblex = 0;
     protected int cibley = 0;
 
-
-    public Herbivore(int nbFaim, int nbSoif, int x, int y){
-        super(nbFaim, nbSoif, x, y, 0, 0, 0, 0, 0, 0, 0, 2);
+    public Herbivore(int x, int y){
+        super(100, 100, x, y, 0, 0, 7, 100, 100, 4, 7, 2);
+        System.out.println("Creation d'un nouveau herbivore d'id: " + String.valueOf(this.id) + " en position: ("+ String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee) +") ");
     }
 
     public void manger(){

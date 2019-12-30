@@ -27,6 +27,7 @@ public class Carnivore extends Animal {
          * espece : 1
          **/
         super(100, 100, x, y, 20, 50, 5, 100, 100, 18, 100, 1);
+        System.out.println("Creation d'un nouveau carnivore d'id: " + String.valueOf(this.id) + " en position: ("+ String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee) +") ");
     }
 
     public boolean est_en_poursuite(){
@@ -43,7 +44,7 @@ public class Carnivore extends Animal {
          * Entrees : liste des animaux
          * Sorties : void
          */
-
+        System.out.println("je recherche au tour de moi une cible");
         /** enduranceCible*distance min on peut jouer sur ceci pour augmenter le rayon d'action */
         double min = 10000;
 
@@ -63,6 +64,12 @@ public class Carnivore extends Animal {
                 }
             }
         }
+
+        if(this.cible != -1){
+            System.out.println("j'en ai trouve une");
+        }else{
+            System.out.println("je n'en ai pas trouve");
+        }
     }
 
     public void attaquer(ArrayList <Animal> listeAnimaux) {
@@ -73,9 +80,11 @@ public class Carnivore extends Animal {
                     //on reinitiallise sa recherche de cible
                     this.cible = -1;
                 }else{
-                    this.manger(this.faim_max);
-                    listeAnimaux.get(counter).meurt();
-                    this.cible = -1;
+                    if(check_rayonDaction(listeAnimaux.get(counter).get_x(), listeAnimaux.get(counter).get_y())) {
+                        this.manger(this.faim_max);
+                        listeAnimaux.get(counter).meurt();
+                        this.cible = -1;
+                    }
                 }
             }
         }
@@ -121,12 +130,8 @@ public class Carnivore extends Animal {
                 this.chercheProie(listeAnimaux);
             }
             else {
-                if (check_rayonDaction(this.ciblex, this.cibley) == true) {
-                    this.attaquer(listeAnimaux);
-                }
-                else {
-                    this.poursuivre(listeAnimaux); //A DEFINIR
-                }
+                this.attaquer(listeAnimaux);
+                this.poursuivre(listeAnimaux); //A DEFINIR
             }
         }
 
@@ -138,11 +143,13 @@ public class Carnivore extends Animal {
     }
 
     public void poursuivre( ArrayList<Animal> listeAnimaux) {
-        for (int counter = 0; counter < listeAnimaux.size(); counter++) {
-            if (listeAnimaux.get(counter).getId() == this.cible) {
-                double a = Math.sqrt(listeAnimaux.get(counter).get_x()*listeAnimaux.get(counter).get_x() + listeAnimaux.get(counter).get_y()*listeAnimaux.get(counter).get_y());
-                this.abscisse += (int)(this.abscisse - listeAnimaux.get(counter).get_x())*this.vitesse/a;
-                this.ordonnee += (int)(this.ordonnee - listeAnimaux.get(counter).get_y())*this.vitesse/a;
+        if (this.cible != -1) {
+            for (int counter = 0; counter < listeAnimaux.size(); counter++) {
+                if (listeAnimaux.get(counter).getId() == this.cible) {
+                    double a = Math.sqrt(listeAnimaux.get(counter).get_x() * listeAnimaux.get(counter).get_x() + listeAnimaux.get(counter).get_y() * listeAnimaux.get(counter).get_y());
+                    this.abscisse += (int) (this.abscisse - listeAnimaux.get(counter).get_x()) * this.vitesse / a;
+                    this.ordonnee += (int) (this.ordonnee - listeAnimaux.get(counter).get_y()) * this.vitesse / a;
+                }
             }
         }
     }
