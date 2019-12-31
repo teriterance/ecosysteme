@@ -26,7 +26,7 @@ public class Carnivore extends Animal {
          * prcptn: 18, decomp 100
          * espece : 1
          **/
-        super(100, 100, x, y, 20, 50, 5, 100, 100, 18, 100, 1);
+        super(100, 10, x, y, 20, 50, 5, 100, 100, 100, 100, 1);
         System.out.println("Creation d'un nouveau carnivore d'id: " + String.valueOf(this.id) + " en position: ("+ String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee) +") ");
     }
 
@@ -119,12 +119,14 @@ public class Carnivore extends Animal {
         /** si la soif est prioritaire : **/
         if (prio == 2) {
             /** initialisation du point d'eau à viser s'il n'existe pas **/
-            if (chercher_a_boire(list_eaux)){
-                deplace_vers_point_eau(); // A DEFINIR : initialisation du point d'eau visé
-                if(calcule_distance(this.position_eau_x, this.position_eau_y) <= this.rayon_action){
+            if (this.position_eau_x != -1 && this.position_eau_y != -1){
+                // A DEFINIR : initialisation du point d'eau visé
+                if(deplace_vers_point_eau()){
                     this.boire(100);
                     System.out.println("je bois");
                 }
+            }else{
+                chercher_a_boire(list_eaux);
             }
         }
         /** SI FAIM : **/

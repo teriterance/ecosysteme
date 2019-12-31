@@ -74,6 +74,7 @@ public abstract class Animal {
         this.point_attaque = attqu;
         this.enduranceMax = endur;
         this.vitesseMax = vitMax;
+        this.vitesse = vitMax;
         this.faim_max = fMax;
         this.soif_max = sMax;
         this.perception = prcptn;
@@ -135,6 +136,9 @@ public abstract class Animal {
         if(this.soif > this.soif_max){
             this.soif = this.soif_max;
         }
+        this.position_eau_x = -1;
+        this.position_eau_y = -1;
+        this.rayon_eau = -1;
     }
 
     public void courrir(int x, int y){
@@ -175,14 +179,14 @@ public abstract class Animal {
 
     public boolean deplace_vers_point_eau(){
         /**cas de la direction definit, l'animal ne cherche plus de point d'eau**/
-        double a = Math.sqrt(this.position_eau_y*this.position_eau_y + this.position_eau_x*this.position_eau_x);
-        this.abscisse += (int)(this.abscisse - this.position_eau_x)*this.vitesse/a;
-        this.ordonnee += (int)(this.ordonnee - this.position_eau_y)*this.vitesse/a;
-        System.out.println("rposition" +String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee));
         if (check_rayonDaction(this.position_eau_x, this.position_eau_y)){
             /**Sur ou dans le point d'eau**/
             return false;
         }
+        double a = Math.sqrt( Math.pow(this.ordonnee - this.position_eau_y,2) + Math.pow(this.abscisse - this.position_eau_x,2));
+        this.abscisse += (int)(this.abscisse - this.position_eau_x)*this.vitesse/a;
+        this.ordonnee += (int)(this.ordonnee - this.position_eau_y)*this.vitesse/a;
+        System.out.println("rposition" +String.valueOf(this.ordonnee) +" "+ String.valueOf(this.abscisse));
         return true;
     }
 
@@ -203,6 +207,7 @@ public abstract class Animal {
             if ( a < dist_min && a < this.perception*this.perception){
                 this.position_eau_x = c;
                 this.position_eau_y = d;
+                System.out.println("de l'e eau");
                 this.id_point_eau_vise = eaux.get(counter).get_id_point_eau();
                 this.rayon_eau = eaux.get(counter).getRayon();
             }

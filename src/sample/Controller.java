@@ -30,8 +30,9 @@ public class Controller {
         for( int i =0; i< 1; i++){
             eaus.add(new Point_eau(50,50, 2));
         }
-
-        while (true){
+        int i = 0;
+        while (i < 5){
+            i++;
             for (int counter = 0 ; counter < Carnivores.size() ; counter++) {
                 Carnivores.get(counter).vivre(eaus, Herbivores);
             }
