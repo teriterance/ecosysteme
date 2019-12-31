@@ -17,18 +17,18 @@ public class Controller {
 
         //on rempli la liste
         for( int i =0; i< 1; i++){
-            Carnivores.add(new Carnivore(ran.nextInt(100),ran.nextInt(100)));
+            Carnivores.add(new Carnivore(52,52));
         }
 
         ArrayList<Herbivore> Herbivores = new ArrayList<Herbivore>();
-        for( int i =0; i< 10; i++){
-            Herbivores.add(new Herbivore(ran.nextInt(100),ran.nextInt(100)));
+        for( int i =0; i< 1; i++){
+            Herbivores.add(new Herbivore(54,54));
         }
 
         ArrayList<Point_eau> eaus = new ArrayList<Point_eau>();
 
-        for( int i =0; i< 3; i++){
-            eaus.add(new Point_eau(ran.nextInt(100),ran.nextInt(100), ran.nextInt(5)));
+        for( int i =0; i< 1; i++){
+            eaus.add(new Point_eau(50,50, 2));
         }
 
         while (true){

@@ -107,25 +107,26 @@ public class Carnivore extends Animal {
         /** on défini la priorité faim ou soif **/
         /** si l'animal à faim et soif il doit décider ce qu'il préfère : manger ou boire **/
         int prio = 0; // = 1 si prio est de manger, 2 si prio est de boire, 0 si ni faim ni soif
-        if ((this.soif < this.valcrit) && (this.faim < this.valcrit)) {
+        if ((this.soif < this.valcrit) || (this.faim < this.valcrit)) {
             if (this.soif <= this.faim){
                 prio = 2;
-            }
-            if (this.soif > this.faim){
+            }else {
                 prio = 1;
             }
         }
+
 
         /** si la soif est prioritaire : **/
         if (prio == 2) {
             /** initialisation du point d'eau à viser s'il n'existe pas **/
             if (chercher_a_boire(list_eaux)){
                 deplace_vers_point_eau(); // A DEFINIR : initialisation du point d'eau visé
-                System.out.println("je vais vers un point d'eau");
+                if(calcule_distance(this.position_eau_x, this.position_eau_y) <= this.rayon_action){
+                    this.boire(100);
+                    System.out.println("je bois");
+                }
             }
-            deplace_vers_point_eau();
         }
-
         /** SI FAIM : **/
         if (prio == 1) {
             if (this.cible == -1) {

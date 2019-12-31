@@ -178,6 +178,7 @@ public abstract class Animal {
         double a = Math.sqrt(this.position_eau_y*this.position_eau_y + this.position_eau_x*this.position_eau_x);
         this.abscisse += (int)(this.abscisse - this.position_eau_x)*this.vitesse/a;
         this.ordonnee += (int)(this.ordonnee - this.position_eau_y)*this.vitesse/a;
+        System.out.println("rposition" +String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee));
         if (check_rayonDaction(this.position_eau_x, this.position_eau_y)){
             /**Sur ou dans le point d'eau**/
             return false;
@@ -193,12 +194,13 @@ public abstract class Animal {
             return false;
         }
         /**cas ou on initialise les choses **/
+        System.out.println("recherche de point d'eau");
         float dist_min = 100000;
         for (int counter = 0 ; counter < eaux.size() ; counter++){
             int c = eaux.get(counter).get_abscisse();
             int d = eaux.get(counter).get_ordonnee();
             double a = Math.pow((this.abscisse - c),2) + Math.pow((this.abscisse - d),2);
-            if ( a < dist_min && a < this.perception){
+            if ( a < dist_min && a < this.perception*this.perception){
                 this.position_eau_x = c;
                 this.position_eau_y = d;
                 this.id_point_eau_vise = eaux.get(counter).get_id_point_eau();
