@@ -26,7 +26,7 @@ public class Carnivore extends Animal {
          * prcptn: 18, decomp 100
          * espece : 1
          **/
-        super(100, 10, x, y, 20, 50, 5, 100, 100, 100, 100, 1);
+        super(10, 100, x, y, 20, 50, 5, 100, 100, 100, 100, 1);
         System.out.println("Creation d'un nouveau carnivore d'id: " + String.valueOf(this.id) + " en position: ("+ String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee) +") ");
     }
 
@@ -81,7 +81,8 @@ public class Carnivore extends Animal {
                     this.cible = -1;
                 }else{
                     this.cible  = listeAnimaux.get(counter).getId();
-                    if(check_rayonDaction(listeAnimaux.get(counter).get_x(), listeAnimaux.get(counter).get_y())) {
+                    double a = Math.sqrt( Math.pow(this.ordonnee - this.position_eau_y,2) + Math.pow(this.abscisse - this.position_eau_x,2));
+                    if( a < this.rayon_action) {
                         System.out.println("je suis un carnivore et j'attaque un herbivore");
                         this.manger(this.faim_max);
                         listeAnimaux.get(counter).meurt();
@@ -115,7 +116,6 @@ public class Carnivore extends Animal {
             }
         }
 
-
         /** si la soif est prioritaire : **/
         if (prio == 2) {
             /** initialisation du point d'eau à viser s'il n'existe pas **/
@@ -132,10 +132,15 @@ public class Carnivore extends Animal {
         /** SI FAIM : **/
         if (prio == 1) {
             if (this.cible == -1) {
+                System.out.println("je bois " + String.valueOf(this.cible));
                 this.chercheProie(listeAnimaux);
             }else {
+                System.out.println("je bois");
                 this.attaquer(listeAnimaux);
-                this.poursuivre(listeAnimaux); //A DEFINIR
+                if(this.cible != -1) {
+                    //si la cible n'a pas ete attaque
+                    this.poursuivre(listeAnimaux); //A DEFINIR
+                }
             }
         }
 

@@ -116,6 +116,7 @@ public abstract class Animal {
         if (this.faim > this.faim_max){
             this.faim = this.faim_max;
         }
+        System.out.println("je mange " + String.valueOf(this.faim_max));
     }
 
     public void deplacer(int x, int y){
@@ -136,9 +137,6 @@ public abstract class Animal {
         if(this.soif > this.soif_max){
             this.soif = this.soif_max;
         }
-        this.position_eau_x = -1;
-        this.position_eau_y = -1;
-        this.rayon_eau = -1;
     }
 
     public void courrir(int x, int y){
@@ -179,14 +177,11 @@ public abstract class Animal {
 
     public boolean deplace_vers_point_eau(){
         /**cas de la direction definit, l'animal ne cherche plus de point d'eau**/
-        if (check_rayonDaction(this.position_eau_x, this.position_eau_y)){
-            /**Sur ou dans le point d'eau**/
-            return false;
-        }
         double a = Math.sqrt( Math.pow(this.ordonnee - this.position_eau_y,2) + Math.pow(this.abscisse - this.position_eau_x,2));
         this.abscisse += (int)(this.abscisse - this.position_eau_x)*this.vitesse/a;
         this.ordonnee += (int)(this.ordonnee - this.position_eau_y)*this.vitesse/a;
         System.out.println("rposition" +String.valueOf(this.ordonnee) +" "+ String.valueOf(this.abscisse));
+
         return true;
     }
 
