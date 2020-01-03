@@ -40,7 +40,7 @@ public class Carnivore extends Animal {
     }
 
     public void chercheProie(ArrayList <Herbivore> listeAnimaux) {
-        /** Fonction a appeler des que le carnivore cherche une prois à manger:
+        /** Fonction à appeler dès que le carnivore cherche une proi à manger:
          * Il choisit sa cible en prenant la proie avec le produit endurance*distance le plus faible
          * Entrees : liste des animaux
          * Sorties : void
