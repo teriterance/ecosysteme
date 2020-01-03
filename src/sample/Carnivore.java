@@ -27,6 +27,7 @@ public class Carnivore extends Animal {
          * espece : 1
          **/
         super(10, 100, x, y, 20, 50, 5, 100, 100, 100, 100, 1);
+        this.rayon_action =10;
         System.out.println("Creation d'un nouveau carnivore d'id: " + String.valueOf(this.id) + " en position: ("+ String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee) +") ");
     }
 
@@ -80,11 +81,10 @@ public class Carnivore extends Animal {
                     //on reinitiallise sa recherche de cible
                     this.cible = -1;
                 }else{
-                    this.cible  = listeAnimaux.get(counter).getId();
-                    double a = Math.sqrt( Math.pow(this.ordonnee - this.position_eau_y,2) + Math.pow(this.abscisse - this.position_eau_x,2));
+                    double a = Math.sqrt( Math.pow(this.ordonnee - listeAnimaux.get(counter).get_y(),2) + Math.pow(this.abscisse - listeAnimaux.get(counter).get_x(),2));
                     if( a < this.rayon_action) {
                         System.out.println("je suis un carnivore et j'attaque un herbivore");
-                        this.manger(this.faim_max);
+                        this.manger(100);
                         listeAnimaux.get(counter).meurt();
                         this.cible = -1;
                     }
@@ -127,15 +127,15 @@ public class Carnivore extends Animal {
                 }
             }else{
                 chercher_a_boire(list_eaux);
+                this.bougerAleatoirement();
             }
         }
         /** SI FAIM : **/
         if (prio == 1) {
             if (this.cible == -1) {
-                System.out.println("je bois " + String.valueOf(this.cible));
+                System.out.println("je cherche  " + String.valueOf(this.cible));
                 this.chercheProie(listeAnimaux);
             }else {
-                System.out.println("je bois");
                 this.attaquer(listeAnimaux);
                 if(this.cible != -1) {
                     //si la cible n'a pas ete attaque

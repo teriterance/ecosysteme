@@ -80,6 +80,7 @@ public abstract class Animal {
         this.perception = prcptn;
         this.espece = espece;
         this.id = IDD;
+        this.point_de_vie = 100;
         IDD++;
     }
 

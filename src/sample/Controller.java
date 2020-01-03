@@ -36,6 +36,9 @@ public class Controller {
             for (int counter = 0 ; counter < Carnivores.size() ; counter++) {
                 Carnivores.get(counter).vivre(eaus, Herbivores);
             }
+            for (int counter = 0 ; counter < Herbivores.size() ; counter++) {
+                Herbivores.get(counter).vivre(eaus, Carnivores);
+            }
         }
     }
 }

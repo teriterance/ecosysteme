@@ -23,6 +23,57 @@ public class Herbivore extends Animal{
             super.manger(10);
         }
     }
+    public void vivre(ArrayList<Point_eau> list_eaux, ArrayList<Carnivore> listeAnimaux) {
+        if(this.est_mort() ==false) {
+            /** fonction à laquel on fait appel à chaque tour pour que le carnivore vive **/
+            /** L'animal à de plus en plus faim chaque tour si il le peut **/
+            if ((this.soif >= 0) || (this.faim >= 0)) {
+                plusfaimplussoif(1, 1);
+            }
+
+            /**SI MEURT DE faim ou soif **/
+            if ((this.soif == 0) || (this.faim == 0)) {
+                meurt_de_faimsoif(1, 1);
+            }
+
+            /** on défini la priorité faim ou soif **/
+            /** si l'animal à faim et soif il doit décider ce qu'il préfère : manger ou boire **/
+            int prio = 0; // = 1 si prio est de manger, 2 si prio est de boire, 0 si ni faim ni soif
+            if ((this.soif < this.valcrit) || (this.faim < this.valcrit)) {
+                if (this.soif <= this.faim) {
+                    prio = 2;
+                } else {
+                    prio = 1;
+                }
+            }
+
+            /** si la soif est prioritaire : **/
+            if (prio == 2) {
+                /** initialisation du point d'eau à viser s'il n'existe pas **/
+                if (this.position_eau_x != -1 && this.position_eau_y != -1) {
+                    // A DEFINIR : initialisation du point d'eau visé
+                    if (deplace_vers_point_eau()) {
+                        this.boire(100);
+                        System.out.println("je bois");
+                    }
+                } else {
+                    chercher_a_boire(list_eaux);
+                    this.bougerAleatoirement();
+                }
+            }
+            /** SI FAIM : **/
+            if (prio == 1) {
+                this.manger();// il peut manger partout "meme sur l'eau
+            }
+
+            /** SI NI FAIM NI SOIF : **/
+            if (prio == 0) {
+                this.bougerAleatoirement(); //A DEFINIR
+            }
+        }else{
+            System.out.println("je suis mort");
+        }
+    }
 
     public void cherchePredateur(ArrayList<Animal> listeAnimaux) {
         /** Fonction a appeler à tous les tours : l'herbivore reste aux aguets
