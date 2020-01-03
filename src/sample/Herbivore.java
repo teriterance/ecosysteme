@@ -6,6 +6,7 @@ public class Herbivore extends Animal{
 
     /** Variable utile pour savoir si l'animal se sent menacé : dans ce cas il fuit et ne s'arrête pas pour manger/boire **/
     protected boolean effroi = false;
+    
     /** cible : si attaqué par un/plusieurs carnivores **/
     protected int cible = -1;
     protected int ciblex = 0;
