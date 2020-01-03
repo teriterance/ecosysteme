@@ -5,13 +5,13 @@ import java.util.Random;
 
 public class Controller {
     public static void main(String[] args) {
-        /* etapes de fonctionnmen
-        - on creait une liste d'annimal de type Cernivore charognard et herbivore
-        - On les fait evoluer en appelant les differente fonction qui sont contenue dans ces derniers
+        /* étapes de fonctionnment
+        - on creait une liste d'annimal de type Carnivore charognard et herbivore
+        - On les fait évoluer en appelant les differentes fonctions qui sont contenues dans ces derniers
         - On affiche le resultat
          */
 
-        //on genere une liste de carnivore en fonction sur le terain
+        //on génere une liste de carnivore en fonction sur le terain
         ArrayList<Carnivore> Carnivores = new ArrayList<Carnivore>();
         Random ran = new Random();
 
