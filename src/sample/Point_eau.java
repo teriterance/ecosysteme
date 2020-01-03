@@ -5,7 +5,8 @@ public class Point_eau {
     protected static int nb_point_eau = 0;
 
     /**les variables de classe**/
-    /**coordone du centre du point d'eau et son rayon**/
+
+    /**coordonnées du centre du point d'eau et son rayon**/
     private int abscisse;
     private int ordonnee;
     private float rayon;
@@ -18,8 +19,8 @@ public class Point_eau {
         this.rayon = rayon;
         nb_point_eau ++;
         id_point_eau += nb_point_eau;
-        System.out.println("cretation d'un nouveau point d'eau en position " +String.valueOf(this.abscisse) +", "+ String.valueOf(this.ordonnee) +" et de rayon "+String.valueOf(this.rayon));
-    }
+        System.out.println("cretation d'un nouveau point d'eau en position " +String.this.abscisse) +", "+ String.valueOf(this.ordonnee) +" et de rayon "+String.valueOf(this.rayon));
+    }valueOf(
 
     /**definition des geters **/
     public float getRayon() {
