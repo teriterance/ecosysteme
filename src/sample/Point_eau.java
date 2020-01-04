@@ -14,13 +14,14 @@ public class Point_eau {
 
     /*constructeur**/
     public Point_eau(int x, int y, float rayon){
+        //possisiton et taille du poin d'eau
         this.abscisse = x;
         this.ordonnee = y;
         this.rayon = rayon;
         nb_point_eau ++;
         id_point_eau += nb_point_eau;
-        System.out.println("cretation d'un nouveau point d'eau en position " +String.this.abscisse) +", "+ String.valueOf(this.ordonnee) +" et de rayon "+String.valueOf(this.rayon));
-    }valueOf(
+        System.out.println("cretation d'un nouveau point d'eau en position " +String.valueOf(this.abscisse) +", "+ String.valueOf(this.ordonnee) +" et de rayon "+String.valueOf(this.rayon));
+    }
 
     /**definition des geters **/
     public float getRayon() {

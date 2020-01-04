@@ -15,7 +15,7 @@ import java.util.Random;
 public abstract class Animal {
     protected static  int IDD = 0;
     /** valeur critique avant d'avoir faim ou soif **/
-    protected int valcrit = 10;
+    protected int valcrit;
     /** nombre de tours avant d'avoir faim */
     protected int faim;
     /** nombre de tours avant d'avoir soif */
@@ -23,7 +23,7 @@ public abstract class Animal {
     /** nombre de point de vie, si inf à 0, animal meurt*/
     protected int point_de_vie;
     /** nombre de point de decomposition, si inf à n, animal trop decompose pour etre mange*/
-    protected int point_de_decomposition = 100;
+    protected int point_de_decomposition;
     /**abscisse */
     protected int abscisse;
     /**ordonnee */
@@ -62,10 +62,11 @@ public abstract class Animal {
     /**ON veut eviter du canibalisme donc**/
     /** 0 par défaut, 1 : Carnivore, 2 : Charognard, 3 : Herbivore, 4 : Cadavre **/
     protected int espece; //pour avoir une facon de reconnaitre l'espece et d'eviter du canibalisme
+    protected int rayon_action;// le rayon d'actionde l'animal
 
-    protected int rayon_action;
+    protected int taille_terrain;
 
-    public Animal(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, int espece){
+    public Animal(int pv, int nbFaim, int nbSoif, int valc,int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, int espece, int action, int taille_terrain){
         /**constructeur de la classe**/
         this.faim = nbFaim;
         this.abscisse = x;
@@ -79,8 +80,12 @@ public abstract class Animal {
         this.soif_max = sMax;
         this.perception = prcptn;
         this.espece = espece;
+        this.point_de_vie = pv;
+        this.valcrit = valc;
+        this.point_de_decomposition = decom;
+        this.rayon_action = action;
         this.id = IDD;
-        this.point_de_vie = 100;
+        this.taille_terrain = taille_terrain;
         IDD++;
     }
 
@@ -100,24 +105,36 @@ public abstract class Animal {
     }
 
     public int get_x(){
+        /**retourne la position x de l'objet animal**/
         return this.abscisse;
     }
 
     public int get_y(){
+        /**retourne la possition y de l'animal**/
         return this.ordonnee;
     }
 
     public int get_endurance(){
+        /**renvoi l'endurance de notre animal**/
         return  this.endurance;
     }
 
     public void manger(int val_nouriture){
-        //nourriture est une valeur a modifier selon l'heritier de la fonction
+        /**nourriture est une valeur a modifier selon l'heritier de la fonction**/
         this.faim += val_nouriture;
         if (this.faim > this.faim_max){
             this.faim = this.faim_max;
         }
-        System.out.println("je mange " + String.valueOf(this.faim_max));
+        System.out.println("Moi animal d'ID "+ String.valueOf(this.id)+ " je mange");
+    }
+
+    public void boire(int val_eau){
+        /**valeur d'eau a boire**/
+        this.soif += val_eau;
+        if(this.soif > this.soif_max){
+            this.soif = this.soif_max;
+        }
+        System.out.println("Moi animal d'ID "+ String.valueOf(this.id)+ " je bois");
     }
 
     public void deplacer(int x, int y){
@@ -129,14 +146,6 @@ public abstract class Animal {
         else {
             //on leve une exception
             throw new IllegalArgumentException("Les valeurs des deplacement sont plus grandesque les valeur vitesse");
-        }
-    }
-
-    public void boire(int val_eau){
-        //valeur d'eau a boire
-        this.soif += val_eau;
-        if(this.soif > this.soif_max){
-            this.soif = this.soif_max;
         }
     }
 
@@ -153,16 +162,19 @@ public abstract class Animal {
     }
 
     public boolean est_mort(){
-        //si le nombre de points de vie est inferieur a zero tu es mort
-        if (point_de_vie <= 0 ){
-            return true;
-        }
-        return false;
+        /**si le nombre de points de vie est inferieur a zero tu es mort**/
+        return this.point_de_vie <= 0;
+    }
+
+    public void meurt(){
+        /**fonction de mort elle permet de tuer un animal**/
+        this.point_de_vie = 0;
     }
 
     public void recoit_attaque(int val_attaque){
-        // il donne la valeur de son attaque a l'adversaire
+        /** elle permet de recevoir une attaque de l'adversaire **/
         if (!this.est_mort()){
+            //on ne peut attaque un individu mort
             this.point_de_vie -= val_attaque;
             //on verifie qu'il n'est pas mort avant l'attaque
             if (this.est_mort()){
@@ -171,18 +183,12 @@ public abstract class Animal {
         }
     }
 
-    public void meurt(){
-        /**fonction de mort**/
-        this.point_de_vie = 0;
-    }
-
     public boolean deplace_vers_point_eau(){
         /**cas de la direction definit, l'animal ne cherche plus de point d'eau**/
         double a = Math.sqrt( Math.pow(this.ordonnee - this.position_eau_y,2) + Math.pow(this.abscisse - this.position_eau_x,2));
         this.abscisse += (int)(this.abscisse - this.position_eau_x)*this.vitesse/a;
         this.ordonnee += (int)(this.ordonnee - this.position_eau_y)*this.vitesse/a;
-        System.out.println("rposition" +String.valueOf(this.ordonnee) +" "+ String.valueOf(this.abscisse));
-
+        System.out.println("Moi l'animal d'ID "+String.valueOf(this.id)+" je passe a la possition x = "+String.valueOf(this.abscisse) +" y = "+ String.valueOf(this.ordonnee));
         return true;
     }
 
@@ -194,7 +200,7 @@ public abstract class Animal {
             return false;
         }
         /**cas ou on initialise les choses **/
-        System.out.println("recherche de point d'eau");
+        System.out.println("Moi l'animal d'ID "+String.valueOf(this.id)+" je recherche un point d'eau");
         float dist_min = 100000;
         for (int counter = 0 ; counter < eaux.size() ; counter++){
             int c = eaux.get(counter).get_abscisse();
@@ -203,7 +209,7 @@ public abstract class Animal {
             if ( a < dist_min && a < this.perception*this.perception){
                 this.position_eau_x = c;
                 this.position_eau_y = d;
-                System.out.println("de l'e eau");
+                System.out.println("Moi l'animal d'ID "+String.valueOf(this.id)+ " je trouves de l'eau");
                 this.id_point_eau_vise = eaux.get(counter).get_id_point_eau();
                 this.rayon_eau = eaux.get(counter).getRayon();
             }
@@ -242,28 +248,17 @@ public abstract class Animal {
         /** retourne un booléen pour savoir si un animal est déjà présent aux coord données
          * true s'il n'y en a pas, false si un animal est déjà présent aux coordonées données
          * **/
-        int bool = 1;
-        Animal animal;
         for (int counter = 0 ; counter < listeAnimaux.size() ; counter++) {
-            animal = listeAnimaux.get(counter);
-            if ((animal.abscisse == x) && (animal.ordonnee == y)) {
-                bool = 0;
+            if ((listeAnimaux.get(counter).get_x() == x) && (listeAnimaux.get(counter).get_y() == y)) {
+                return false;
             }
         }
-        if (bool ==1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return true;
     }
 
     public double calcule_distance(int x, int y) {
         /** outil de calcul de distance de l'animal aux coordonnées (x, y) **/
-
-        /** Distance **/
-        double dist;
-        dist = Math.pow(Math.pow(this.abscisse - x, 2) + Math.pow(this.ordonnee - y, 2), 0.5);
+        double dist = Math.pow(Math.pow(this.abscisse - x, 2) + Math.pow(this.ordonnee - y, 2), 0.5);
         return dist;
     }
 
@@ -302,6 +297,17 @@ public abstract class Animal {
             this.abscisse -= r.nextInt(this.vitesseMax + 1);
             this.ordonnee -= r.nextInt(this.vitesseMax + 1);
         }
-        System.out.println("je bouge aleatoirement" + String.valueOf(this.abscisse) + " "+ String.valueOf(this.ordonnee));
+
+        if(this.abscisse < 0)
+            this.abscisse = 0;
+        if(this.abscisse > this.taille_terrain)
+            this.abscisse = this.taille_terrain - 1;
+
+        if(this.ordonnee < 0)
+            this.ordonnee = 0;
+        if(this.ordonnee > this.taille_terrain)
+            this.ordonnee = this.taille_terrain - 1;
+
+        System.out.println("Moi l'animal d'ID "+String.valueOf(this.id)+" je bouge aleatoirement x = " + String.valueOf(this.abscisse) + " y = "+ String.valueOf(this.ordonnee));
     }
 }

@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Herbivore extends Animal{
 
@@ -9,11 +10,11 @@ public class Herbivore extends Animal{
     
     /** cible : si attaqué par un/plusieurs carnivores **/
     protected int cible = -1;
-    protected int ciblex = 0;
-    protected int cibley = 0;
-
-    public Herbivore(int x, int y){
-        super(100, 100, x, y, 0, 0, 7, 100, 100, 4, 7, 2);
+    public Herbivore(int x, int y, int taille_ter){
+        super(100, 100, 100, 100, x, y, 5, 100, 100, 100, 100, 10, 100, 1, 5, taille_ter);
+        Random rd = new Random();
+        this.soif = rd.nextInt(this.soif_max);
+        this.faim = rd.nextInt(this.faim_max);
         System.out.println("Creation d'un nouveau herbivore d'id: " + String.valueOf(this.id) + " en position: ("+ String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee) +") ");
     }
 
@@ -71,51 +72,51 @@ public class Herbivore extends Animal{
                 this.bougerAleatoirement(); //A DEFINIR
             }
         }else{
-            System.out.println("je suis mort");
+            System.out.println("je suis un herbivore mort je ne vit plus mort");
         }
     }
 
-    public void cherchePredateur(ArrayList<Animal> listeAnimaux) {
+    public void cherchePredateur(ArrayList<Carnivore> listeAnimaux) {
         /** Fonction a appeler à tous les tours : l'herbivore reste aux aguets
          * la cible est le predateur le plus proche (si il y en a plusieurs)
          * Entrees : liste des animaux
          * Sorties : void
          *
          */
-
-        /** ID de la cible en cours */
-        Carnivore cible;
-
-        /** distance cadavre-charognard */
-        double dist = 0;
-
-        /** l'id de la cible choisie */
-        Carnivore ciblef = null;
-
-        /** au cas où on ne trouve pas de cible **/
-        int test_cible = 0;
-
-        /** distance min */
-        double min = 100000;
-
         // Parcours de la liste des animaux
         for (int counter = 0 ; counter < listeAnimaux.size() ; counter++){
             if (listeAnimaux.get(counter).getEspece() == 1) {
-                cible = (Carnivore) listeAnimaux.get(counter);
-                dist = calcule_distance(cible.abscisse, cible.ordonnee);
-                if ((dist < this.perception) && (dist < min)) {
-                    test_cible = 1;
-                    ciblef = cible;
-                    min = dist;
+                int dist = (int)calcule_distance(listeAnimaux.get(counter).get_x(), listeAnimaux.get(counter).get_y());
+                if ((dist < this.perception)) {
                     this.effroi = true;
+                    this.cible = listeAnimaux.get(counter).getId();
                 }
             }
         }
-        if (test_cible == 1) {
-            this.cible = ciblef.getId(); // erreur sur le ciblef pas définie ??? -> j'ai rajouté null
-            this.ciblex = ciblef.abscisse;
-            this.cibley = ciblef.ordonnee;
-        }
     }
 
+    public void fuir_predateur(ArrayList<Carnivore> listeAnimaux){
+        /**Denifnit comment un Carnivore poursuit une proie
+         * Sa position s'incremente d'une composante de vitesse
+         * **/
+        if (this.cible != -1) {
+            for (int counter = 0; counter < listeAnimaux.size(); counter++) {
+                if (listeAnimaux.get(counter).getId() == this.cible) {
+                    double a = Math.sqrt(listeAnimaux.get(counter).get_x() * listeAnimaux.get(counter).get_x() + listeAnimaux.get(counter).get_y() * listeAnimaux.get(counter).get_y());
+                    this.abscisse -= (int) (this.abscisse - listeAnimaux.get(counter).get_x()) * this.vitesse / a;
+                    this.ordonnee -= (int) (this.ordonnee - listeAnimaux.get(counter).get_y()) * this.vitesse / a;
+                    System.out.println("Moi l'animal d'ID " + String.valueOf(this.id) + "je ne poursuit une cible");
+                }
+            }
+        }
+        if(this.abscisse < 0)
+            this.abscisse = 0;
+        if(this.abscisse > this.taille_terrain)
+            this.abscisse = this.taille_terrain - 1;
+
+        if(this.ordonnee < 0)
+            this.ordonnee = 0;
+        if(this.ordonnee > this.taille_terrain)
+            this.ordonnee = this.taille_terrain - 1;
+    }
 }

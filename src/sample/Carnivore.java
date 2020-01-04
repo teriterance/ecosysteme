@@ -19,24 +19,23 @@ public class Carnivore extends Animal {
     int ptvie_perdu_par_tour = 1;
     int ptend_perdu_par_tour = 1;
 
-    public Carnivore(int x, int y) {
+    public Carnivore(int x, int y, int taille_te) {
         /**definition des valeurs
          * nbFaim: 100,  nbSoif: 100, fMax: 100, sMax: 100
          * position x, y
          * prcptn: 18, decomp 100
          * espece : 1
          **/
-        super(10, 100, x, y, 20, 50, 5, 100, 100, 100, 100, 1);
-        this.rayon_action =10;
+        super(100, 100, 100, 100, x, y, 5, 100, 100, 100, 100, 10, 100, 1, 5, taille_te);
+        Random rd = new Random();// si on trouve nune solution plus simple pour faire de l'aleatoire
+        this.soif = rd.nextInt(this.soif_max);
+        this.faim = rd.nextInt(this.faim_max);
         System.out.println("Creation d'un nouveau carnivore d'id: " + String.valueOf(this.id) + " en position: ("+ String.valueOf(this.abscisse) +" "+ String.valueOf(this.ordonnee) +") ");
     }
 
     public boolean est_en_poursuite(){
         /**permet de savoir si le predateur a deja une cible dans sa ligne de mire**/
-        if( this.cible != -1){
-            return true;
-        }
-        return  false;
+        return  this.cible != -1;
     }
 
     public void chercheProie(ArrayList <Herbivore> listeAnimaux) {
@@ -45,31 +44,33 @@ public class Carnivore extends Animal {
          * Entrees : liste des animaux
          * Sorties : void
          */
-        System.out.println("je recherche au tour de moi une cible");
-        /** enduranceCible*distance min on peut jouer sur ceci pour augmenter le rayon d'action */
-        double min = 10000;
+        if(!this.est_en_poursuite()) {
+            System.out.println("Moi l'animal d'ID " + String.valueOf(this.id) + " je recherche au tour de moi une cible");
+            /** enduranceCible*distance min on peut jouer sur ceci pour augmenter le rayon d'action */
+            double min = 10000;
 
-        /** distance cible-proie */
-        double dist = 0;
-
-        // Parcours de la liste des animaux
-        for (int counter = 0 ; counter < listeAnimaux.size() ; counter++){
-            if (listeAnimaux.get(counter).getEspece() == 2) {
-                dist = calcule_distance(listeAnimaux.get(counter).get_x(), listeAnimaux.get(counter).get_y());
-                if (dist < this.perception) {
-                    double valProduit = dist * listeAnimaux.get(counter).get_endurance();
-                    if (valProduit < min) {
-                        this.cible = listeAnimaux.get(counter).getId();
-                        min = valProduit;
+            /** distance cible-proie */
+            // Parcours de la liste des animaux
+            for (int counter = 0; counter < listeAnimaux.size(); counter++) {
+                if (listeAnimaux.get(counter).getEspece() == 2) {
+                    double dist = calcule_distance(listeAnimaux.get(counter).get_x(), listeAnimaux.get(counter).get_y());
+                    if (dist < this.perception) {
+                        double valProduit = dist * listeAnimaux.get(counter).get_endurance();
+                        if (valProduit < min) {
+                            this.cible = listeAnimaux.get(counter).getId();
+                            min = valProduit;
+                        }
                     }
                 }
             }
-        }
 
-        if(this.cible != -1){
-            System.out.println("j'en ai trouve une");
-        }else{
-            System.out.println("je n'en ai pas trouve");
+            if (this.cible != -1) {
+                System.out.println("j'en ai trouve une");
+            } else {
+                System.out.println("je n'en ai pas trouve");
+            }
+        }{
+            System.out.println("Moi l'animal d'ID " + String.valueOf(this.id) +" je suis deja en chasse");
         }
     }
 
@@ -83,8 +84,8 @@ public class Carnivore extends Animal {
                 }else{
                     double a = Math.sqrt( Math.pow(this.ordonnee - listeAnimaux.get(counter).get_y(),2) + Math.pow(this.abscisse - listeAnimaux.get(counter).get_x(),2));
                     if( a < this.rayon_action) {
-                        System.out.println("je suis un carnivore et j'attaque un herbivore");
-                        this.manger(100);
+                        System.out.println("Moi l'animal d'ID " + String.valueOf(this.id) + "je suis un carnivore et j'attaque un herbivore");
+                        this.manger(this.faim_max);
                         listeAnimaux.get(counter).meurt();
                         this.cible = -1;
                     }
@@ -143,7 +144,6 @@ public class Carnivore extends Animal {
                 }
             }
         }
-
         /** SI NI FAIM NI SOIF : **/
         if (prio == 0){
             this.bougerAleatoirement(); //A DEFINIR
@@ -160,10 +160,9 @@ public class Carnivore extends Animal {
                     double a = Math.sqrt(listeAnimaux.get(counter).get_x() * listeAnimaux.get(counter).get_x() + listeAnimaux.get(counter).get_y() * listeAnimaux.get(counter).get_y());
                     this.abscisse += (int) (this.abscisse - listeAnimaux.get(counter).get_x()) * this.vitesse / a;
                     this.ordonnee += (int) (this.ordonnee - listeAnimaux.get(counter).get_y()) * this.vitesse / a;
-                    System.out.println("je ne poursuit une cible");
+                    System.out.println("Moi l'animal d'ID " + String.valueOf(this.id) + "je ne poursuit une cible");
                 }
             }
         }
     }
-
 }
