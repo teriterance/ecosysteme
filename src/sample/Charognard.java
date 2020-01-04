@@ -1,6 +1,8 @@
 package sample;
 
 import java.util.ArrayList;
+import java.lang.Math;
+import java.util.Random;
 
 public class Charognard extends Animal {
 
