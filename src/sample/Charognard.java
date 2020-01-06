@@ -14,7 +14,6 @@ public class Charognard extends Animal {
         //A MODIFIER AVEC LES VALEURS PAR DEFAUT :
     public Charognard(int nbFaim, int nbSoif, int x, int y, int attqu, int endur,int vitMax, int fMax, int sMax, int prcptn, int decom, String espece) {
 
-        super(nbFaim, nbSoif, x, y, attqu, endur, vitMax, fMax, sMax, prcptn, decom, 0);
-    }
+        super(100, 100, 100, 100, x, y, 5, 100, 100, 100, 100, 10, 100, 1, 5, 100);    }
 
 }
