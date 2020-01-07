@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
 public class Main extends Application {
     Controller controller;
@@ -41,9 +42,6 @@ public class Main extends Application {
 
             // create a input stream
             FileInputStream input = new FileInputStream("src/background.png");
-            FileInputStream carnivore = new FileInputStream("src/buffalo.png");
-            FileInputStream herbivore = new FileInputStream("src/background.png");
-            FileInputStream charognard = new FileInputStream("src/background.png");
 
             // create a image
             Image image = new Image(input);
@@ -89,11 +87,10 @@ public class Main extends Application {
                     spin4.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
                     spin4.setEditable(true);
 
-                    PorteurImg p = new PorteurImg(100, 100, carnivore);
-
                     Button bouton_validation = new Button("valider");
+                    bouton_validation.setOnAction(e -> gen_controleur(primaryStage, spin1.getValue(),spin2.getValue(), spin3.getValue(), spin4.getValue()));
 
-                    VBox vbox = new VBox(l1, spin1, l2, spin2, l3, spin3, bouton_validation,p);
+                    VBox vbox = new VBox(l1, spin1, l2, spin2, l3, spin3, bouton_validation);
 
                     // set spacing
                     vbox.setSpacing(10);
@@ -121,10 +118,34 @@ public class Main extends Application {
         }
     }
 
-    public void gen_controleur(int x, int y, int z, int t){
+    public void gen_controleur(Stage primaryStage,int x, int y, int z, int t){
         /**generer les annimaux**/
-        this.controller.gen_ecosyst(x,y,z,t,7, 500);
+        this.controller = new Controller(x,y,z,t,7, 500);
+        VBox vbox = new VBox();
+        ArrayList<Carnivore> c = this.controller.get_list_carnivore();
+        for (int i =0 ; i < c.size(); i++)
+            vbox.getChildren().add(new PorteurImg(c.get(i).get_x(), c.get(i).get_x(), "lion.png"));
+        ArrayList<Herbivore> h = this.controller.get_list_herbivore();
+        for (int i =0 ; i < h.size(); i++)
+            vbox.getChildren().add(new PorteurImg(h.get(i).get_x(), h.get(i).get_x(), "buffalo.png"));
+        Scene scene2 = new Scene(vbox, 500, 500);
 
+        // create a image
+        Image image = new Image(PorteurImg.class.getResourceAsStream("background.png"));
+
+        // create a background image
+        BackgroundImage backgroundimage = new BackgroundImage(image,
+                BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        background = new Background(backgroundimage);
+
+        // set background
+        vbox.setBackground(background);
+
+        primaryStage.setScene(scene2);
+        primaryStage.show();
     }
 
     public void un_tour(){
