@@ -181,7 +181,7 @@ public class Main extends Application {
         /**faire un tour de boucle d'evolution des animaux**/
         this.controller.unTour();
         GridPane vbox = new GridPane();
-        
+
         ArrayList<Point_eau> p = this.controller.get_list_Point_eau();
         for (int i =0 ; i < p.size(); i++)
             vbox.getChildren().add(new Porteur_img_eau(p.get(i).get_abscisse(), p.get(i).get_ordonnee(), (int)p.get(i).getRayon()));
