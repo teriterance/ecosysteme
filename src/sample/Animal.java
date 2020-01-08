@@ -290,12 +290,23 @@ public abstract class Animal {
 
     public void bougerAleatoirement(){
         Random r = new Random();
-        if( Math.random() < 0.5) {
-            this.abscisse += r.nextInt(this.vitesseMax + 1);
-            this.ordonnee += r.nextInt(this.vitesseMax + 1);
+        double a = Math.random();
+        if(  a > 0.75) {
+            this.abscisse += r.nextInt( 20);
+            this.ordonnee += r.nextInt(20);
         }else{
-            this.abscisse -= r.nextInt(this.vitesseMax + 1);
-            this.ordonnee -= r.nextInt(this.vitesseMax + 1);
+            if( a >0.5) {
+                this.abscisse -= r.nextInt(20);
+                this.ordonnee -= r.nextInt(20);
+            }else{
+                if( a >0.25 ) {
+                    this.abscisse -= r.nextInt(20);
+                    this.ordonnee += r.nextInt(20);
+                }else{
+                    this.abscisse += r.nextInt(20);
+                    this.ordonnee -= r.nextInt(20);
+                }
+            }
         }
 
         if(this.abscisse < 0)

@@ -13,7 +13,7 @@ public class Point_eau {
     private int id_point_eau = -1;
 
     /*constructeur**/
-    public Point_eau(int x, int y, float rayon){
+    public Point_eau(int x, int y, int rayon){
         //possisiton et taille du poin d'eau
         this.abscisse = x;
         this.ordonnee = y;
@@ -24,9 +24,9 @@ public class Point_eau {
     }
 
     /**definition des geters **/
-    public float getRayon() {
+    public int getRayon() {
         //System.out.println("Le point d'eau " + String.valueOf(this.id_point_eau) + " donne son Rayon");
-        return  this.rayon;
+        return  (int)this.rayon;
     }
     public int get_abscisse(){
         //System.out.println("Le point d'eau " + String.valueOf(this.id_point_eau) + " donne son abscisse");

@@ -16,6 +16,7 @@ public class PorteurImg extends Parent {
         ImageView fond_img = new ImageView(new Image(PorteurImg.class.getResourceAsStream(nom_image)));
         fond_img.setFitHeight(20);
         fond_img.setPreserveRatio(true);
+        this.resize(20,20);
 
         this.getChildren().add(fond_img);
         this.setTranslateY(y);
